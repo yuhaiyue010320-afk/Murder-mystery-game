@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金铭的QQ空间 — 铁匠街少年杀人事件</title>
+<style>
+/* ============================================================
+   RETRO-FUTURISTIC (CRT TERMINAL) — Win98 QQ Space
+   Surface: classic Win98 grey, white workspace, teal desktop
+   Type: SimSun (body), Tahoma (UI)
+   Accent: Win98 navy, phosphor amber for highlights, sage green for clues
+   Texture: CRT scanlines, pixel-precise 3D bevels
+   ============================================================ */
+
+/* === No external fonts — all system-native for offline use === */
+:root {
+  /* Win98 classic palette */
+  --win-bg:        #C0C0C0;
+  --win-workspace: #FFFFFF;
+  --win-title:     #000080;
+  --win-title-inactive: #808080;
+  --win-border-light:  #FFFFFF;
+  --win-border-dark:   #808080;
+  --win-border-darker: #404040;
+  --win-highlight: #000080;
+  --win-highlight-text: #FFFFFF;
+  --win-button-face: #C0C0C0;
+  --win-button-shadow: #808080;
+  --win-button-dark: #404040;
+  --win-button-light: #FFFFFF;
+  --win-desktop:   #008080;
+
+  /* Accents */
+  --phosphor-amber:  #CC8800;
+  --phosphor-green:  #006600;
+
+  /* Clue card — soft Win98 green */
+  --clue-bg:        #D8ECD8;
+  --clue-label:     #006600;
+
+  /* Text */
+  --text-primary:   #000000;
+  --text-secondary: #404040;
+  --text-muted:     #808080;
+  --text-link:      #0000EE;
+  --text-link-visited: #551A8B;
+
+  /* Spacing */
+  --pixel: 2px;
+  --bevel: 2px;
+
+  /* CRT dimensions */
+  --screen-width: 1060px;
+  --screen-min-height: 720px;
+}
+
+/* === Reset === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* === Ensure html/body always have a visible paint area === */
+html, body { width: 100%; min-height: 100vh; }
+
+/* === Body: dark room, centered CRT === */
+body {
+  background: #1a1a1a;
+  background-image:
+    radial-gradient(ellipse at center, #2a2a2a 0%, #0a0a0a 100%);
+  font-family: Tahoma, "SimSun", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  cursor: default;
+  user-select: none;
+}
+
+
+/* === CRT Monitor Bezel === */
+.crt-monitor {
+  background: #2c2c2c;
+  background-image: linear-gradient(180deg, #3a3a3a 0%, #222 5%, #1a1a1a 50%, #222 95%, #3a3a3a 100%);
+  border-radius: 22px;
+  padding: 30px 34px 34px 34px;
+  box-shadow:
+    0 0 0 3px #111,
+    0 0 0 7px #333,
+    0 0 0 10px #0a0a0a,
+    0 8px 32px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+  position: relative;
+}
+
+/* Monitor power LED */
+.crt-monitor::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  right: 50px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #33FF33;
+  box-shadow: 0 0 6px #33FF33, 0 0 12px #33FF3380;
+  animation: ledPulse 4s ease-in-out infinite;
+}
+@keyframes ledPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* === CRT Screen Area === */
+.crt-screen {
+  width: 1060px;
+  min-height: 720px;
+  background: #FFFFFF;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    inset 0 0 40px rgba(0,0,0,0.3),
+    0 0 0 2px #111;
+  border: 3px solid #1a1a1a;
+}
+
+/* === CRT Scanline Overlay === */
+.crt-screen::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  z-index: 500;
+  pointer-events: none;
+}
+
+/* CRT vignette */
+.crt-screen::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.15) 100%);
+  z-index: 501;
+  pointer-events: none;
+}
+
+/* === Windows 98 Desktop === */
+.win-desktop {
+  background: #008080;
+  min-height: 720px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+}
+
+/* Desktop icons */
+.desktop-icons {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 1;
+}
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  width: 64px;
+  text-align: center;
+  padding: 4px;
+}
+.desktop-icon:hover {
+  background: rgba(0,0,128,0.15);
+  outline: 1px dotted #FFFF00;
+}
+.desktop-icon .icon-img {
+  width: 32px;
+  height: 32px;
+  background: #C0C0C0;
+  border: 1px solid #808080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  font-family: Tahoma, sans-serif;
+}
+.desktop-icon .icon-label {
+  font-size: 11px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 1px #000;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+/* === Main Application Window === */
+.app-window {
+  width: 980px;
+  margin: 40px auto 20px;
+  background: #C0C0C0;
+  border: 2px solid;
+  border-color: #FFFFFF #404040 #404040 #FFFFFF;
+  box-shadow: 1px 1px 0 0 #000;
+  z-index: 10;
+  position: relative;
+}
+
+/* Window Title Bar */
+.window-titlebar {
+  background: linear-gradient(90deg, #000080, #1084D0);
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: default;
+}
+.window-titlebar .title-icon {
+  width: 16px;
+  height: 16px;
+  background: #C0C0C0;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #000;
+}
+.window-titlebar .title-text {
+  font-family: Tahoma, "SimSun", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #FFFFFF;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.window-titlebar .title-buttons {
+  display: flex;
+  gap: 2px;
+}
+.window-titlebar .title-btn {
+  width: 16px;
+  height: 14px;
+  border: 1px solid;
+  border-color: #FFFFFF #404040 #404040 #FFFFFF;
+  background: #C0C0C0;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: Tahoma, sans-serif;
+  line-height: 1;
+  padding: 0;
+  color: #000;
+}
+.window-titlebar .title-btn:active {
+  border-color: #404040 #FFFFFF #FFFFFF #404040;
+}
+
+/* Menu Bar */
+.menu-bar {
+  background: #C0C0C0;
+  padding: 2px 4px;
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #808080;
+  font-size: 12px;
+}
+.menu-bar span {
+  padding: 3px 8px;
+  cursor: pointer;
+  color: #000000;
+}
+.menu-bar span:hover {
+  background: #000080;
+  color: #FFFFFF;
+}
+
+/* Toolbar */
+.toolbar {
+  background: #C0C0C0;
+  padding: 3px 6px;
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid #808080;
+  align-items: center;
+  font-size: 12px;
+  color: #404040;
+}
+.toolbar .tb-sep {
+  width: 1px;
+  height: 18px;
+  background: #808080;
+  margin: 0 2px;
+}
+
+/* === Window Client Area === */
+.window-client {
+  background: #FFFFFF;
+  display: flex;
+  min-height: 500px;
+  position: relative;
+}
+
+/* === Left Sidebar (Profile) === */
+.profile-panel {
+  width: 190px;
+  background: #FFFFFF;
+  border-right: 1px solid #808080;
+  padding: 8px;
+  flex-shrink: 0;
+}
+.profile-avatar-box {
+  width: 100%;
+  padding: 8px;
+  background: #FFFFFF;
+  border: 1px solid #808080;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.profile-avatar-img {
+  width: 56px;
+  height: 56px;
+  border: 2px solid;
+  border-color: #808080 #FFFFFF #FFFFFF #808080;
+  background: #E0E0E0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #555;
+  margin: 0 auto 6px;
+  font-family: "SimSun", serif;
+}
+.profile-name {
+  font-weight: bold;
+  font-size: 13px;
+  color: #000000;
+  margin-bottom: 2px;
+}
+.profile-bio {
+  font-size: 11px;
+  color: #808080;
+  margin-bottom: 6px;
+}
+.profile-stats-row {
+  display: flex;
+  justify-content: space-around;
+  font-size: 10px;
+  color: #808080;
+  border-top: 1px solid #E0E0E0;
+  padding-top: 6px;
+}
+.profile-stats-row span { text-align: center; }
+.profile-stats-row strong {
+  display: block;
+  font-size: 13px;
+  color: #000000;
+}
+
+/* Profile nav */
+.profile-nav {
+  margin-top: 8px;
+  border: 1px solid #808080;
+}
+.profile-nav-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-family: Tahoma, "SimSun", sans-serif;
+  background: #FFFFFF;
+  border: none;
+  border-bottom: 1px solid #E0E0E0;
+  cursor: pointer;
+  color: #000000;
+}
+.profile-nav-item:hover {
+  background: #000080;
+  color: #FFFFFF;
+}
+.profile-nav-item:last-child { border-bottom: none; }
+
+/* === Main Content Area === */
+.main-panel {
+  flex: 1;
+  padding: 10px 14px;
+  background: #F5F5F5;
+  overflow-y: auto;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Day indicator */
+.day-bar {
+  background: #E8E8E8;
+  border: 1px solid;
+  border-color: #808080 #FFFFFF #FFFFFF #808080;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.day-badge {
+  background: #000080;
+  color: #FFF;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  font-family: Tahoma, sans-serif;
+}
+.day-date {
+  color: #808080;
+  font-size: 11px;
+}
+
+/* Diary card */
+.diary-card {
+  background: #FFFFFF;
+  border: 1px solid;
+  border-color: #FFFFFF #808080 #808080 #FFFFFF;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+}
+.diary-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000080;
+  margin-bottom: 4px;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+}
+.diary-meta {
+  font-size: 11px;
+  color: #808080;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px dotted #CCC;
+}
+.diary-body {
+  font-size: 14px;
+  line-height: 2;
+  color: #222;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+}
+.diary-body p {
+  margin-bottom: 10px;
+  text-indent: 2em;
+}
+
+/* Highlighted clue text */
+.diary-body .highlight {
+  background: #FFF3CD;
+  border-bottom: 2px dashed #CC8800;
+  padding: 1px 3px;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-indent: 0;
+}
+.diary-body .highlight:hover {
+  background: #FFE69C;
+  outline: 1px dotted #000;
+}
+.diary-body .highlight.visited {
+  background: #E8E8E8;
+  border-bottom-color: #999;
+}
+
+/* Inline clue — hover underline, click to collect */
+.diary-body .clue-inline {
+  border-bottom: 2px dashed transparent;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  padding: 1px 2px;
+  text-indent: 0;
+}
+.diary-body .clue-inline:hover {
+  border-bottom-color: #CC6600;
+  background: #FFF8F0;
+}
+.diary-body .clue-inline.collected {
+  border-bottom-color: #999;
+  background: #E8E8E8;
+  cursor: default;
+}
+
+/* Inline search term — same color as body, green on hover */
+.diary-body .search-term {
+  color: inherit;
+  cursor: pointer;
+  padding: 1px 2px;
+  transition: background 0.15s, color 0.15s;
+  text-indent: 0;
+}
+.diary-body .search-term:hover {
+  background: #CCFFCC;
+  color: #006600;
+  outline: 1px dotted #006600;
+}
+
+/* Clue card — soft Win98 green */
+.clue-card {
+  background: #D8ECD8;
+  border: 2px inset #C0C0C0;
+  padding: 10px 14px;
+  margin: 8px 0;
+  font-size: 12px;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  color: #333;
+  animation: clueBlink 0.6s ease;
+}
+@keyframes clueBlink {
+  0%   { background: #D8ECD8; }
+  30%  { background: #C0E0C0; }
+  100% { background: #D8ECD8; }
+}
+.clue-card .clue-label {
+  font-size: 10px;
+  color: #006600;
+  font-weight: bold;
+  font-family: Tahoma, sans-serif;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+/* Puzzle card */
+.puzzle-card {
+  background: #F0F0F0;
+  border: 1px solid;
+  border-color: #808080 #FFFFFF #FFFFFF #808080;
+  padding: 14px 18px;
+  margin-top: 12px;
+  font-size: 13px;
+}
+.puzzle-card .puzzle-title {
+  font-weight: bold;
+  color: #000080;
+  margin-bottom: 6px;
+  font-family: Tahoma, sans-serif;
+}
+.puzzle-input-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.puzzle-input-row input {
+  flex: 1;
+  padding: 4px 8px;
+  border: 2px inset #C0C0C0;
+  font-family: "SimSun", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  background: #FFF;
+  color: #000;
+  outline: none;
+}
+.puzzle-input-row input:focus {
+  border-color: #000080;
+}
+
+/* Win98 3D button */
+.btn-win98 {
+  padding: 5px 20px;
+  font-family: Tahoma, "SimSun", sans-serif;
+  font-size: 12px;
+  background: #C0C0C0;
+  border: 2px solid;
+  border-color: #FFFFFF #404040 #404040 #FFFFFF;
+  color: #000;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: 1px dotted transparent;
+}
+.btn-win98:active {
+  border-color: #404040 #FFFFFF #FFFFFF #404040;
+  padding: 6px 19px 4px 21px;
+}
+.btn-win98:focus {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
+}
+.btn-win98:disabled {
+  color: #808080;
+  cursor: not-allowed;
+}
+.btn-win98.primary {
+  font-weight: bold;
+}
+
+/* Puzzle feedback */
+.puzzle-feedback {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Tahoma, sans-serif;
+}
+.puzzle-feedback.success { color: #006600; }
+.puzzle-feedback.error   { color: #CC0000; }
+
+/* Next day */
+.next-day-section {
+  text-align: center;
+  margin: 16px 0;
+}
+.btn-win98.big {
+  font-size: 14px;
+  padding: 8px 32px;
+  font-weight: bold;
+}
+
+/* === Right Sidebar (Friends) === */
+.friends-panel {
+  width: 185px;
+  background: #FFFFFF;
+  border-left: 1px solid #808080;
+  padding: 8px;
+  flex-shrink: 0;
+}
+.friends-header-label {
+  font-weight: bold;
+  font-size: 12px;
+  color: #000080;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #CCC;
+  display: flex;
+  justify-content: space-between;
+}
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: Tahoma, "SimSun", sans-serif;
+  font-size: 12px;
+  text-align: left;
+  color: #000000;
+  border-bottom: 1px solid #EEE;
+}
+.friend-item:hover {
+  background: #000080;
+  color: #FFFFFF;
+}
+.friend-item.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.friend-avatar {
+  width: 32px;
+  height: 32px;
+  border: 2px solid;
+  border-color: #FFFFFF #808080 #808080 #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #FFF;
+  flex-shrink: 0;
+  font-family: "SimSun", serif;
+}
+.friend-name   { font-weight: bold; font-size: 12px; }
+.friend-status { font-size: 10px; color: #808080; }
+.friend-badge {
+  margin-left: auto;
+  font-size: 9px;
+  background: #CC0000;
+  color: #FFF;
+  padding: 1px 5px;
+  font-weight: bold;
+  font-family: Tahoma, sans-serif;
+}
+
+/* Search entry in sidebar */
+.search-panel-entry {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #CCC;
+}
+.search-panel-entry .btn-win98 {
+  width: 100%;
+  text-align: center;
+}
+
+/* === Status Bar === */
+.status-bar {
+  background: #C0C0C0;
+  border-top: 1px solid #808080;
+  padding: 3px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #404040;
+  font-family: Tahoma, sans-serif;
+  gap: 12px;
+}
+.status-bar .sb-item {
+  padding: 1px 8px;
+  border: 1px solid;
+  border-color: #808080 #FFFFFF #FFFFFF #808080;
+  background: #E8E8E8;
+}
+
+/* === MODALS === */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 600;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+
+.modal-window {
+  width: 560px;
+  max-width: 92vw;
+  max-height: 78vh;
+  background: #C0C0C0;
+  border: 2px solid;
+  border-color: #FFFFFF #404040 #404040 #FFFFFF;
+  box-shadow: 2px 2px 0 #000;
+  display: flex;
+  flex-direction: column;
+  animation: modalPopIn 0.2s ease;
+}
+@keyframes modalPopIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+.modal-client {
+  background: #FFFFFF;
+  padding: 14px 18px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: 60vh;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Friend space */
+.space-header {
+  text-align: center;
+  padding-bottom: 12px;
+  border-bottom: 1px dotted #CCC;
+  margin-bottom: 14px;
+}
+.space-avatar {
+  width: 56px; height: 56px;
+  border: 2px solid;
+  border-color: #808080 #FFFFFF #FFFFFF #808080;
+  margin: 0 auto 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #FFF;
+}
+.space-post {
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border: 1px solid #E0E0E0;
+  background: #FAFAFA;
+}
+.space-post .post-time {
+  font-size: 10px;
+  color: #808080;
+  margin-bottom: 4px;
+  font-family: Tahoma, sans-serif;
+}
+
+/* Search modal */
+.search-result-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #E0E0E0;
+}
+.search-result-item .result-title {
+  color: #0000EE;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.search-result-item .result-url {
+  font-size: 11px;
+  color: #006600;
+  font-family: Tahoma, sans-serif;
+}
+.search-result-item .result-snippet {
+  font-size: 12px;
+  color: #444;
+  margin-top: 3px;
+  line-height: 1.7;
+}
+.search-hints .hint-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 2px 3px;
+  border: 1px solid #808080;
+  background: #E8E8E8;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: Tahoma, sans-serif;
+  color: #000;
+}
+.search-hints .hint-tag:hover {
+  background: #000080;
+  color: #FFFFFF;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #FFFFCC;
+  border: 2px solid;
+  border-color: #FFFFFF #808080 #808080 #FFFFFF;
+  padding: 8px 20px;
+  font-size: 12px;
+  font-family: Tahoma, "SimSun", sans-serif;
+  z-index: 700;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  animation: toastSlide 0.3s ease;
+  pointer-events: none;
+  color: #000;
+}
+@keyframes toastSlide {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* === Ending overlay === */
+.ending-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #000;
+  z-index: 800;
+  color: #CC8800;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  overflow-y: auto;
+}
+.ending-overlay.show { display: flex; align-items: center; justify-content: center; }
+.ending-scene {
+  max-width: 640px;
+  padding: 40px;
+  text-align: center;
+  animation: endingFadeIn 1.2s ease;
+}
+@keyframes endingFadeIn { from { opacity: 0; } to { opacity: 1; } }
+.ending-scene h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #CC8800;
+}
+.ending-scene .ending-diary {
+  text-align: left;
+  font-size: 14px;
+  line-height: 2.2;
+  color: #CCC;
+  margin-bottom: 24px;
+}
+.ending-scene .ending-credits {
+  font-size: 13px;
+  color: #888;
+  line-height: 2;
+}
+.ending-scene .ending-credits em { color: #CC8800; font-style: normal; }
+
+/* === Scrollbar (Win98 style) === */
+::-webkit-scrollbar { width: 16px; }
+::-webkit-scrollbar-track {
+  background: #C0C0C0;
+  border: 1px solid #808080;
+}
+::-webkit-scrollbar-thumb {
+  background: #C0C0C0;
+  border: 2px solid;
+  border-color: #FFFFFF #808080 #808080 #FFFFFF;
+}
+
+/* === Pixel accent === */
+*:focus-visible {
+  outline: 1px dotted #000;
+  outline-offset: -2px;
+}
+
+/* ============================================================
+   INTRO & TITLE PAGES — Black screen, white text
+   ============================================================ */
+.fullscreen-black {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: #000000;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  cursor: default;
+  user-select: none;
+}
+.fullscreen-black.hidden { display: none; }
+
+/* Intro text — typed/fade effect */
+.intro-text {
+  max-width: 560px;
+  font-size: 18px;
+  line-height: 2.2;
+  text-align: left;
+  padding: 30px;
+  opacity: 0;
+  animation: introFadeIn 2s ease forwards;
+}
+@keyframes introFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.intro-hint {
+  position: absolute;
+  bottom: 60px;
+  font-size: 13px;
+  color: #888;
+  animation: hintBlink 2s ease-in-out infinite;
+}
+@keyframes hintBlink {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 1.0; }
+}
+
+/* EVA-style title */
+.eva-title {
+  font-size: 52px;
+  font-weight: bold;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  color: #FFFFFF;
+  letter-spacing: 8px;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(255,255,255,0.3);
+  margin-bottom: 40px;
+  animation: evaTitleIn 2s ease forwards;
+}
+@keyframes evaTitleIn {
+  from { opacity: 0; letter-spacing: 24px; }
+  to   { opacity: 1; letter-spacing: 8px; }
+}
+.eva-subtitle {
+  max-width: 500px;
+  font-size: 13px;
+  color: #AAA;
+  line-height: 2;
+  text-align: center;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  animation: evaSubIn 2.5s ease forwards;
+}
+@keyframes evaSubIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* CRT boot transition */
+.crt-boot-flash {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: #FFF;
+  z-index: 899;
+  pointer-events: none;
+  animation: crtBoot 0.4s ease-out forwards;
+}
+@keyframes crtBoot {
+  0%   { opacity: 1; }
+  60%  { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+
+/* ============================================================
+   FIXED-HEIGHT CLUE PANEL — scrollable
+   ============================================================ */
+.clue-panel-fixed {
+  max-height: 210px;
+  overflow-y: auto;
+  border: 1px solid #CCC;
+  padding: 4px;
+  background: #FAFAFA;
+}
+/* Clue panel scrollbar — compact */
+.clue-panel-fixed::-webkit-scrollbar { width: 12px; }
+.clue-panel-fixed::-webkit-scrollbar-track {
+  background: #E8E8E8;
+  border: 1px solid #CCC;
+}
+.clue-panel-fixed::-webkit-scrollbar-thumb {
+  background: #C0C0C0;
+  border: 2px solid;
+  border-color: #FFFFFF #808080 #808080 #FFFFFF;
+}
+
+/* ============================================================
+   DIARY REVIEW MODAL
+   ============================================================ */
+.diary-review-list {
+  list-style: none; padding: 0;
+}
+.diary-review-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-bottom: none;
+  cursor: pointer;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  font-size: 13px;
+  color: #000;
+}
+.diary-review-item:last-child { border-bottom: 1px solid #E0E0E0; }
+.diary-review-item:hover { background: #000080; color: #FFF; }
+.diary-review-item .review-date { font-size: 11px; color: #808080; }
+.diary-review-item:hover .review-date { color: #CCC; }
+
+.diary-full-content {
+  padding: 10px;
+  line-height: 2;
+  font-size: 14px;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  color: #222;
+}
+
+/* ============================================================
+   GROUP CHAT ENTRY QUESTION / FRIEND REQUEST
+   ============================================================ */
+.entry-question-box {
+  background: #F0F0F0;
+  border: 2px inset #C0C0C0;
+  padding: 16px 20px;
+  text-align: center;
+  margin: 20px 0;
+}
+.entry-question-box .eq-title {
+  font-weight: bold;
+  font-size: 14px;
+  color: #000080;
+  margin-bottom: 8px;
+  font-family: Tahoma, sans-serif;
+}
+.entry-question-box .eq-input-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.entry-question-box input {
+  padding: 4px 8px;
+  border: 2px inset #C0C0C0;
+  font-family: "SimSun", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  width: 200px;
+  background: #FFF;
+  color: #000;
+  outline: none;
+}
+
+/* ============================================================
+   TRUTH PAGE — terminal style
+   ============================================================ */
+.truth-scene {
+  max-width: 620px;
+  width: 90%;
+  padding: 40px;
+  text-align: left;
+  animation: truthFadeIn 1.5s ease;
+}
+@keyframes truthFadeIn { from { opacity: 0; } to { opacity: 1; } }
+.truth-scene h2 {
+  font-size: 22px;
+  color: #CC8800;
+  text-align: center;
+  margin-bottom: 24px;
+  text-shadow: 0 0 10px rgba(204,136,0,0.4);
+  font-family: "SimSun", serif;
+}
+.truth-scene .truth-body {
+  font-size: 14px;
+  line-height: 2.2;
+  color: #AAA;
+  font-family: "SimSun", "Microsoft YaHei", serif;
+  margin-bottom: 24px;
+}
+.truth-scene .truth-body strong { color: #CC8800; }
+.truth-scene .truth-credits {
+  font-size: 12px;
+  color: #666;
+  line-height: 2;
+  text-align: center;
+  border-top: 1px solid #333;
+  padding-top: 16px;
+}
+
+/* Dual puzzle on Day 4 */
+.puzzle-card + .puzzle-card {
+  margin-top: 12px;
+  border-top: 1px dashed #CCC;
+  padding-top: 14px;
+}
+</style>
+</head>
+<body>
+
+<!-- ========== INTRO PAGE: Black screen, white text ========== -->
+<div id="page-intro" class="fullscreen-black">
+  <div class="intro-text" id="intro-text"></div>
+  <div class="intro-hint">点击任意位置继续 …</div>
+</div>
+
+<!-- ========== TITLE PAGE: EVA-style ========== -->
+<div id="page-title" class="fullscreen-black hidden">
+  <div class="eva-title">铁匠街少年杀人事件</div>
+  <div class="eva-subtitle" id="eva-instructions"></div>
+  <div class="intro-hint">— 点击任意位置开始游戏 —</div>
+</div>
+
+<!-- CRT boot flash overlay -->
+<div id="crt-boot-flash" class="crt-boot-flash hidden"></div>
+
+<!-- ========== GAME PAGE: Win98 CRT ========== -->
+<div id="page-game" class="hidden">
+
+<!-- DIAGNOSTIC -->
+<div id="__diag__" style="position:fixed;top:0;left:0;z-index:99999;background:#000;color:#0F0;padding:6px 14px;font-family:monospace;font-size:12px;">
+  HTML OK | CSS: <span id="__css_ok__" style="color:#F00;">waiting…</span> | JS: <span id="__js_ok__" style="color:#F00;">waiting…</span>
+</div>
+
+<div class="crt-monitor">
+  <div class="crt-screen">
+    <div class="win-desktop">
+
+      <!-- Desktop icons -->
+      <div class="desktop-icons">
+        <div class="desktop-icon">
+          <div class="icon-img">PC</div>
+          <div class="icon-label">我的电脑</div>
+        </div>
+        <div class="desktop-icon">
+          <div class="icon-img">[+]</div>
+          <div class="icon-label">我的文档</div>
+        </div>
+        <div class="desktop-icon">
+          <div class="icon-img">@</div>
+          <div class="icon-label">Internet<br>Explorer</div>
+        </div>
+        <div class="desktop-icon">
+          <div class="icon-img">&times;</div>
+          <div class="icon-label">回收站</div>
+        </div>
+      </div>
+
+      <!-- === QQ Space Application Window === -->
+      <div class="app-window">
+        <!-- Title Bar -->
+        <div class="window-titlebar">
+          <div class="title-text">
+            <span class="title-icon">Q</span>
+            金铭的QQ空间 — Internet Explorer
+          </div>
+          <div class="title-buttons">
+            <button class="title-btn">_</button>
+            <button class="title-btn">&#9633;</button>
+            <button class="title-btn">&times;</button>
+          </div>
+        </div>
+
+        <!-- Menu Bar -->
+        <div class="menu-bar">
+          <span>文件(F)</span><span>编辑(E)</span><span>查看(V)</span>
+          <span>收藏(A)</span><span>工具(T)</span><span>帮助(H)</span>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <span>&larr; 后退</span><span class="tb-sep"></span>
+          <span>&rarr; 前进</span><span class="tb-sep"></span>
+          <span>主页</span><span class="tb-sep"></span>
+          <span style="flex:1;font-size:11px;color:#808080;">
+            地址: http://user.qzone.qq.com/jinming
+          </span>
+          <span class="tb-sep"></span>
+          <span>搜索</span>
+        </div>
+
+        <!-- Client Area -->
+        <div class="window-client">
+          <!-- Left: Profile -->
+          <div class="profile-panel">
+            <div class="profile-avatar-box">
+              <div class="profile-avatar-img">铭</div>
+              <div class="profile-name">金铭</div>
+              <div class="profile-bio">金银镇中学 初三(3)班</div>
+              <div class="profile-stats-row">
+                <span><strong>47</strong>日志</span>
+                <span><strong>12</strong>相册</span>
+                <span><strong>89</strong>留言</span>
+              </div>
+            </div>
+            <div class="profile-nav">
+              <button class="profile-nav-item" id="btn-diary-review">我的日志</button>
+              <button class="profile-nav-item">我的相册</button>
+              <button class="profile-nav-item">我的留言</button>
+              <button class="profile-nav-item" id="btn-reset-game">重新开始</button>
+            </div>
+          </div>
+
+          <!-- Center: Main Content -->
+          <div class="main-panel" id="main-content">
+            <div style="padding:40px;text-align:center;color:#666;">
+              <p>正在加载中…</p>
+              <p style="font-size:11px;margin-top:8px;">如果页面长时间无反应，请检查浏览器是否启用了 JavaScript。</p>
+            </div>
+          </div>
+
+          <!-- Right: Friends -->
+          <div class="friends-panel">
+            <div class="friends-header-label">
+              <span>好友</span>
+              <span style="font-size:9px;">在线(3)</span>
+            </div>
+            <div id="friends-list">
+              <!-- Rendered by JS -->
+            </div>
+            <div class="search-panel-entry">
+              <button class="btn-win98" id="btn-open-search" style="width:100%;">
+                网页搜索
+              </button>
+            </div>
+            <div style="margin-top:6px;text-align:center;">
+              <button class="btn-win98" id="btn-reset-game2"
+                style="font-size:10px;width:100%;">清除存档</button>
+            </div>
+          </div>
+        </div><!-- /.window-client -->
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <span id="status-day">第 1 天</span>
+          <span class="sb-item" id="status-clues">线索: 0</span>
+          <span style="flex:1;"></span>
+          <span>铁匠街少年杀人事件 | 按ESC关闭弹窗</span>
+        </div>
+      </div><!-- /.app-window -->
+
+    </div><!-- /.win-desktop -->
+  </div><!-- /.crt-screen -->
+</div><!-- /.crt-monitor -->
+
+<!-- ========== FRIEND SPACE MODAL ========== -->
+<div class="modal-overlay" id="modal-friend">
+  <div class="modal-window">
+    <div class="window-titlebar">
+      <div class="title-text" id="friend-modal-title">好友空间</div>
+      <div class="title-buttons">
+        <button class="title-btn" onclick="closeModal('modal-friend')">&times;</button>
+      </div>
+    </div>
+    <div class="modal-client" id="friend-modal-body"></div>
+    <div class="status-bar">
+      <span>按 ESC 关闭窗口</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SEARCH MODAL ========== -->
+<div class="modal-overlay search-modal" id="modal-search">
+  <div class="modal-window" style="width:600px;">
+    <div class="window-titlebar">
+      <div class="title-text">网页搜索 — Internet Explorer</div>
+      <div class="title-buttons">
+        <button class="title-btn" onclick="closeModal('modal-search')">&times;</button>
+      </div>
+    </div>
+    <div class="modal-client">
+      <div class="toolbar" style="margin:-14px -18px 12px;border:0;border-bottom:1px solid #808080;">
+        <span style="flex:1;font-size:11px;">
+          地址: <input type="text" id="search-input" placeholder="输入关键词搜索…"
+            style="width:300px;font-family:inherit;font-size:12px;padding:2px 6px;
+            border:2px inset #C0C0C0;background:#FFF;color:#000;"
+            onkeydown="if(event.key==='Enter')doSearch()">
+        </span>
+        <button class="btn-win98" onclick="doSearch()" style="font-size:11px;">搜索</button>
+      </div>
+      <div class="search-hints" id="search-hints" style="margin-bottom:10px;"></div>
+      <div class="search-results" id="search-results">
+        <div style="text-align:center;color:#808080;padding:30px;">
+          输入关键词开始搜索线索…
+        </div>
+      </div>
+    </div>
+    <div class="status-bar">
+      <span>金银镇本地搜索 | 部分结果可能不可用</span>
+    </div>
+  </div>
+</div><!-- /#page-game -->
+
+<!-- ========== TRUTH PAGE ========== -->
+<div id="page-truth" class="fullscreen-black hidden">
+  <div class="truth-scene" id="truth-scene"></div>
+</div>
+
+<!-- ========== DIARY REVIEW MODAL ========== -->
+<div class="modal-overlay" id="modal-diary-review">
+  <div class="modal-window">
+    <div class="window-titlebar">
+      <div class="title-text">我的日志 — 回顾</div>
+      <div class="title-buttons">
+        <button class="title-btn" onclick="closeModal('modal-diary-review')">&times;</button>
+      </div>
+    </div>
+    <div class="modal-client" id="diary-review-body"></div>
+    <div class="status-bar"><span>点击日记标题回顾过往内容 | 按 ESC 关闭</span></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+// ======================================================================
+// 铁匠街少年杀人事件 — Game Engine v2
+// 逐天协作模式：GAME_DATA 对象包含所有游戏内容，修改文案只需编辑此对象。
+// 渲染逻辑与数据分离，不要动渲染函数。
+// ======================================================================
+
+// ==================== STORAGE HELPERS ====================
+function safeStorageGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function safeStorageSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function safeStorageRemove(k){try{localStorage.removeItem(k)}catch(e){}}
+
+// ==================== APP PHASE STATE MACHINE ====================
+var PHASE={INTRO:'intro',TITLE:'title',GAME:'game',TRUTH:'truth'};
+var appPhase=PHASE.INTRO;
+
+function switchPhase(p){
+  ['page-intro','page-title','page-game','page-truth'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.classList.add('hidden');
+  });
+  var showId={'intro':'page-intro','title':'page-title','game':'page-game','truth':'page-truth'}[p];
+  var showEl=document.getElementById(showId);if(showEl)showEl.classList.remove('hidden');
+  appPhase=p;
+  if(p===PHASE.GAME){renderAll();updateDiagBar()}
+}
+
+// ==================== ═══════════════════════════════════════
+//  GAME_DATA — EDIT BELOW TO CHANGE STORY CONTENT
+//  ═══════════════════════════════════════════════════════════
+var GAME_DATA={
+// ---- INTRO & TITLE ----
+intro:{text:"你叫金铭，今年十五岁。你在铁匠街长大，从小听着人们讲，铁匠街曾世代打铁为生。铁如同流淌在铁匠街的孩子的血液中，让他们坚韧、锐利，即便离开的人也终将感受到来自铁匠街的强烈召唤。\n\n你未曾怀疑过这些话，直到在一场少年械斗之后，赵秋叶死在铁匠街最后一家铁铺前，坚韧而锐利的铁插在他的胸口。"},
+title:{instructions:"-本作品为点击式解谜游戏，你将穿越回2014年的金银镇铁匠街，扮演初中生金铭，通过浏览QQ空间日志、好友动态及检索网络信息，探索赵秋叶之死与铁匠街背后的隐秘故事。点击高亮文本可以收集线索，网页搜索可自主输入关键词检索。-此处还会有一句动人心魄的总领性文案，但我还没想出来。"},
+
+// ---- CHARACTERS (edit name/avatar/bio/signature freely) ----
+friends:{
+  zhaoqiuye:{id:'zhaoqiuye',name:'一叶知秋',avatarBg:'linear-gradient(135deg,#5a3a2a,#8B5E3C)',avatarText:'叶',bio:'备注：赵秋叶',signature:'功不唐捐，玉汝于成。',
+    posts:{1:[
+      {time:'2014年6月3日',content:'后天请了半天假，这样正好可以晚饭时间回金银镇，多点时间和小铭见面，和小叶见面。上次回去的时候，小铭和我说她也想考上省中，所以才压力这么大。她肯定可以的呀，我想或许等小铭中考结束，我就告诉她关于小叶的事。她应该也会喜欢小叶的。<br><br>这件事我想了很久了。我相信她们，也相信自己。我相信未来一定会越来越好的。',note:''},
+      {time:'2014年4月24日',content:'不知道怎么描述这种感觉，但是和小叶待在一起真的很开心。小叶好像和我越来越亲昵了，这也让我更想每周都回金银镇了，好像重新获得了在镇子上生活的实感。<br><br>我还没想好怎么跟小铭说，毕竟这件事有点奇怪。而且小铭好像有心事。我问她怎么了，她说没什么。不太像没什么的样子。妈说她弟弟的事让她压力很大，而且她快中考了。<br><br>我希望小铭和小叶都能好好的。',note:''},
+      {time:'2014年3月22日',content:'今天回镇上碰见阿超了。<br><br>我远远看见他站在小铭家烟酒行门口，靠着墙抽烟。我愣了一会儿才敢认，他以前从来不抽烟，人也瘦了好多，袖口破了也没补。我走过去跟他打招呼，他看见我，喊了声秋叶哥，然后就说同学在等他，匆匆走了。<br><br>我不知道到底发生了什么。原本担心是还有人在欺负他，但是我看到远处在等他的人好像是银桥帮的人。看来大概现在没人会欺负他了，只是我觉得，他变得和以前不一样了。<br><br>小铭每次回来都去车站接我，和她见面的时候我并没有感受到很大的变化。但仔细想想，我确实有很久没见过张叶玲，也没怎么和阿超见过面，看起来大家都在交新的朋友，也许很多东西确实在改变了。<br><br>我并没有完全成为省城的一部分，如今却感觉在慢慢被铁匠街抛弃了。',note:''},
+      {time:'2013年9月20日',content:'开学快一个月了。<br><br>很难适应这里的生活。所有人好像从一出生就知道自己要考哪所大学，上课的时候抢着回答问题，宿舍熄灯之后还有人打手电筒刷题。我只是跟得上就已经筋疲力尽。<br><br>但我不准备认输。<br><br>功不唐捐，玉汝于成。我在文具盒里放了张纸条写着这八个字，每天打开都能看见。<br><br>爸说铁匠街的孩子骨头硬，到哪儿都能站稳。我不知道自己骨头硬不硬，但我知道不能给他们丢脸。虽然我真的很想他们。',note:''},
+      {time:'2013年7月22日',content:'今天和张叶玲见了面。<br><br>她知道我考上了省城的高中，很高兴，一直说我真厉害。但笑了一会儿，嘴角就往下掉了。我问她怎么了，她说，她老是觉得我们不会再见面了。<br><br>真奇怪。这句话阿超跟我讲过，小铭也跟我讲过。怎么一个两个都这样。<br><br>我说怎么会呢，我只是去上学了，又不是——<br><br>她连忙打断我，不让我说完。然后她笑了，说没事，说我到了省城要好好的。<br><br>我本来满脑子都是要去省城上学的兴奋，现在却确实觉得有点难过了。说不上来为什么。',note:''}
+    ],2:[],3:[],4:[]}},
+  jinshanyong:{id:'jinshanyong',name:'刀尖舔血',avatarBg:'linear-gradient(135deg,#444,#666)',avatarText:'勇',bio:'备注：金善勇',signature:'天大地大，兄弟们最大',
+    posts:{1:[
+      {time:'2014年6月4日',content:'有些人就是欠收拾，考上省中就了不起？抢老子看上的女人，让你知道铁匠街谁说了算。<br><br>@一叶知秋 6月5日下午七点西郊老地方见，谁不来谁不是东西。',note:''},
+      {time:'2014年5月22日',content:'兄弟们听好了，手上有一批成色不错的iPhone 4s，有锁但能解，四百一个不接刀。要的私聊，先到先得。我金善勇有福利绝对不忘兄弟们，天大地大，兄弟们最大。',note:''},
+      {time:'2014年5月2日',content:'今天阿超他妈又来网吧找事。当着那么多人的面，骂他家里揭不开锅了还在这上网。<br><br>我给他妈说，阿超在帮我干活，月底能结钱，这才摆平。<br><br>兄弟们，你们记住，自己人帮自己人，天经地义。我金善勇不是什么好人，但有一件事我分得清：谁站在我身边，谁就得站在我身后。站我身边的我护着，站我身后的我挡着。',note:''}
+    ],2:[],3:[],4:[]}},
+  achao:{id:'achao',name:'。。。',avatarBg:'linear-gradient(135deg,#556,#778)',avatarText:'超',bio:'备注：刘志超',signature:'顺其自然',
+    posts:{1:[
+      {time:'2014年6月6日',content:'睡不着。一直在想关于秋叶哥的事。秋叶哥走的时候头也没回，那个背影一直在我脑子里转。如果我当时追上去了，事情会变得不一样吗？这种事怎么会发生在秋叶哥身上呢？<br><br>铭铭肯定恨死我了。其实我也恨我自己。<br><br>但我真的不知道该怎么办。我看了好多关于铁匠街的传说，越看越邪乎，可能真是邪乎的东西来找我们这些人讨债了。',note:''},
+      {time:'2014年3月22日',content:'今天碰到秋叶哥了。他主动跟我打招呼，问我最近怎么样。我不知道怎么和他说，所以逃走了。我根本不敢看他的眼睛，以前被人骂娘娘腔的时候秋叶哥还帮我出过头，但我现在只能和那些欺负过我的人混在一起了。他和小铭都是要去省城的人，都是可以离开铁匠街去过网上别人说的幸福，我哪能和他们比。这大概就是命。',note:''},
+      {time:'2013年12月3日',content:'妈又在说让我过年去烟酒行赊账的事。我说小铭家已经很照顾我们了。妈骂我没出息，说人家开烟酒行赚钱，我怎么就不能学着点，不是说在银桥能学到技术吗，现在啥也没学到，真是废物。我不知道怎么学。我只想找个地方待着，没人骂我，没人使唤我。网吧挺好的。',note:''}
+    ],2:[],3:[],4:[]}},
+  mingnian:{id:'mingnian',name:'铭念烟酒行',avatarBg:'linear-gradient(135deg,#770,#994)',avatarText:'烟',bio:'备注：爸爸',signature:'经营烟酒副食，24小时营业',
+    posts:{1:[
+      {time:'2014年6月2日',content:'【公告】本月特价：金银啤酒 买一箱送两瓶。地址：铁匠街东口，老赵书店隔壁。电话：05XX-XXXXXXX。欢迎新老顾客惠顾！',note:''},
+      {time:'2014年5月31日',content:'月底了，赊账的记得来结一下，小本生意，互相体谅。',note:''},
+      {time:'2010年6月20日',content:'有没有人认识省城看儿童心理的专家？私聊。跪求推荐靠谱医生。',note:''}
+    ],2:[],3:[],4:[]}},
+  zhangye:{id:'zhangye',name:'张叶',avatarBg:'linear-gradient(135deg,#567,#789)',avatarText:'张',bio:'银桥职高 · 人称"小叶"',signature:'有钱不赚是傻子',
+    posts:{1:[],2:[
+      {time:'6月6日',content:'这两天别找我。出去避避风头。',note:''}
+    ],3:[],4:[]}},
+  zhaolingyu:{id:'zhaolingyu',name:'赵凌宇',avatarBg:'linear-gradient(135deg,#654,#876)',avatarText:'凌',bio:'宇宙网吧老板',signature:'谁能管得着',
+    posts:{1:[],2:[
+      {time:'6月6日',content:'我哥不是那种会跟人结仇的人。肯定有别的事。',note:''},
+      {time:'6月7日',content:'今天警察又来家里了。我妈哭了一整天。',note:''}
+    ],3:[],4:[]}},
+  zhangcuimei:{id:'zhangcuimei',name:'张翠梅',avatarBg:'linear-gradient(135deg,#666,#888)',avatarText:'梅',bio:'铁匠街最后一家铁铺 · 神婆',signature:'心诚则灵，药到病除',
+    posts:{1:[],2:[
+      {time:'6月6日',content:'今天警察来铁铺问话了。我说我什么都不知道，早上开门就看见那孩子躺在那儿。<br><br>刀不是铁铺的。我家的刀都是新打的，没开过刃。',note:''}
+    ],3:[],4:[]}},
+  fengzi:{id:'fengzi',name:'疯子',avatarBg:'linear-gradient(135deg,#777,#999)',avatarText:'望',bio:'无家可归者 · 常在铁匠街游荡',signature:'火不是我放的……',
+    posts:{1:[],2:[],3:[
+      {time:'未知',content:'<em>（金铭与疯子的对话记录）</em><br><br>疯子坐在铁匠街废弃的淬火池旁边，用树枝在地上写字。字写得非常工整，是楷体。他写的是：<br><br><strong>"金银镇方志卷一：铁匠街旧事……"</strong><br><br>下面有一行被反复划掉又重写的句子：<br><br><strong>"纵火者非我，而举镇皆目之为贼……"</strong><br><br>金铭问他："你还记得那个孩子吗？"<br><br>疯子忽然抬头，眼神变得异常清明：<br><br><strong>"那个孩子，我给他盖了被子。冷了，盖被子。"</strong>',note:''}
+    ],4:[]}},
+  xinchengbang:{id:'xinchengbang',name:'银桥帮的群聊',avatarBg:'linear-gradient(135deg,#338,#66A)',avatarText:'群',bio:'QQ群 · 银桥职高の夜露死苦',signature:'自己带家伙，不带的站远点',
+    posts:{1:[
+      {time:'6月5日 18:30',content:'<strong>阿龙</strong>：谁到西郊了？我和小胖到了。这边一个人没有，怪瘆人的。<br><strong>小胖</strong>：不是说那个疯子老在西郊转悠吗 不会撞上吧<br><strong>阿龙</strong>：你他妈别吓人',note:''},
+      {time:'6月5日 18:45',content:'<strong>勇哥</strong>：我们到了。赵秋叶来了没。<br><strong>阿龙</strong>：还没看到人 兄弟们都差不多到齐了<br><strong>阿超</strong>：勇哥，待会儿差不多就行了，别真的打起来。<br><strong>阿龙</strong>：闭上你妈的嘴吧 勇哥还能没数的？',note:''},
+      {time:'6月5日 18:58',content:'<strong>勇哥</strong>：看见人了。背个包。谁去翻翻有没有带家伙。',note:''},
+      {time:'6月5日 19:20',content:'<strong>勇哥</strong>：散了散了 待会一起上网去 我请客啊<br><strong>阿龙</strong>：老大威武<br><strong>小胖</strong>：就让那小子那么跑了?<br><strong>勇哥</strong>：老子说散了就散了。去上网，宇哥那儿。谁要来的自己跟上。',note:''},
+      {time:'6月5日 21:15',content:'<strong>小胖</strong>：打了一晚上游戏了，你们有没有觉得少了谁？刘言今天好像不在。<br><strong>阿龙</strong>：你管他呢。他最近跟宇哥那帮人搞什么生意，神神秘秘的。往西边走的。<br><strong>小胖</strong>：西边？那不是我们刚回来的地方吗。他们不怕撞鬼啊。<br><strong>阿龙</strong>：你少说两句 专心打游戏',note:''},
+      {time:'6月6日 7:03',content:'<strong>小胖</strong>：我草，勇哥咋被带走了。<br><strong>熊仔</strong>：啥情况啊，你们看新闻了吗<br><strong>阿龙</strong>：别他妈瞎猜，闭上你们的嘴吧<br><br>（群主已设置全员禁言）',note:''}
+    ],2:[],3:[],4:[]}}
+},
+
+// ---- Friends available per day ----
+dayFriends:{1:['zhaoqiuye','jinshanyong','achao','mingnian','xinchengbang'],2:['zhaoqiuye','jinshanyong','achao','mingnian','xinchengbang','zhangye','zhaolingyu','zhangcuimei'],3:['zhaoqiuye','jinshanyong','achao','mingnian','xinchengbang','zhangye','zhaolingyu','zhangcuimei'],4:['zhaoqiuye','jinshanyong','achao','mingnian','xinchengbang','zhangye','zhaolingyu','zhangcuimei','fengzi']},
+
+// ---- DAILY DIARY ----
+days:{
+  1:{date:'6月6日',diaries:[
+    // ===== 第一篇：赵秋叶 =====
+    {title:'赵秋叶',views:23,comments:5,clueIds:['d1-qiuye-student'],content:[
+      {type:'mixed',segments:[
+        {type:'text',text:'我没想过秋叶哥会死。'},
+        {type:'text',text:'准确来讲，在此之前我从未想过现实中的死亡，因而直到现在我的大脑仍一片混乱。但我知道我一定要将这一切记录下来。我要记住这一切，关于赵秋叶，关于所谓'},
+        {type:'search',text:'铁匠街少年杀人事件',keyword:'铁匠街少年杀人事件'},
+        {type:'text',text:'。'}
+      ]},
+      {type:'mixed',segments:[
+        {type:'text',text:'秋叶哥是我的邻居，也是我在铁匠街最好的朋友。对我来说，他家经营的'},
+        {type:'search',text:'老赵书店',keyword:'老赵书店'},
+        {type:'text',text:'简直是净土，即便开在我家的烟酒行旁边显得门可罗雀。几乎从刚记事开始，我一有空便钻进他家店中找他。我和他的生日恰好是狮子座的第一天和最后一天，他父母会开玩笑叫我们两只小狮子。金念出生之后，父母更无暇顾及我的事，'},
+        {type:'clue',clueId:'d1-qiuye-student',text:'我和他整日泡在盗版书和廉价却缤纷的彩色小文具中，在烟酒行的打打杀杀旁度过了还算安然无恙的青春期。'}
+      ]},
+      {type:'mixed',segments:[
+        {type:'text',text:'直到去年，秋叶哥考上了省城的'},
+        {type:'search',text:'实验高中',keyword:'实验中学'},
+        {type:'text',text:'。我们见面的频率变低了很多，但他仍是我最好的朋友。我想过未来他也许会永远离开铁匠街、离开金银镇，但我从未想过他会这样离开我。'}
+      ]}
+    ]},
+    // ===== 第二篇：战书 =====
+    {title:'战书',views:28,comments:7,clueIds:['d1-jinshanyong-challenge','d1-qiuye-last-words'],content:[
+      {type:'text',text:'我最后一次见秋叶哥是昨天下午，我翘了自习课，去金银镇车站接他。他坐六点到达的班车，恰好到了饭点，我们去了我最喜欢的面馆吃面。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'因为会考占用了他们的教室，他罕见地能够在周四回到镇上。我不是唯一知道他会提前回来的人，事实上镇上的初高中生几乎都听说了'},
+        {type:'clue',clueId:'d1-jinshanyong-challenge',text:'金善勇在等秋叶哥回来，还给秋叶哥下了战书，原因是他喜欢的女生曾经是秋叶哥的女朋友。'}
+      ]},
+      {type:'mixed',segments:[
+        {type:'text',text:'秋叶哥是以开玩笑的口吻提起这件事的。他说如果不是金善勇这么说，他都不知道自己还有过女朋友。我原本觉得他没必要理会这种挑衅，但他说如果不去赴约的话，'},
+        {type:'search',text:'银桥帮',keyword:'银桥帮'},
+        {type:'text',text:'那群人大概永远不会消停。'}
+      ]},
+      {type:'mixed',segments:[
+        {type:'text',text:'我对他决定前往感到惊讶，急匆匆地把最后一口面咽下去：你没见过他们打架那阵仗吗？我要不要和你一起去？秋叶哥笑了，说，就是因为见过他们打架才不怕啊，吓唬人而已，怎么能把你牵扯进来。见我仍放心不下，'},
+        {type:'clue',clueId:'d1-qiuye-last-words',text:'他又对我讲：我和他见完面就会回家。你吃完快回去上自习，快中考了，好好学习，省中的食堂比这还好吃呢。'}
+      ]},
+      {type:'text',text:'这就是他对我讲的最后一句话。'}
+    ]},
+    // ===== 第三篇：铁匠街少年杀人事件 =====
+    {title:'铁匠街少年杀人事件',views:35,comments:9,clueIds:['d1-not-first-scene','d1-qiuye-injury','d1-yinqiao-harmless'],content:[
+      {type:'text',text:'从昨夜秋叶哥没有回复消息开始，我便感受到隐隐的不安，但我没想到这种不安会获得最糟糕的回应。'},
+      {type:'text',text:'我并没有见到秋叶哥的尸体，路过铁匠街的时候现场已被警戒线和层层叠叠的人围住，我从路人的私语中拼凑出了这个事实。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'据别人讲，秋叶哥死在'},
+        {type:'search',text:'张氏铁铺',keyword:'张氏铁铺'},
+        {type:'text',text:'门口，'},
+        {type:'clue',clueId:'d1-not-first-scene',text:'一根铁棍贯穿了他的胸口，血迹从远处星星点点地蔓延到铁铺门口，染了几里路'},
+        {type:'text',text:'，不知道是不是他在苟延残喘之中沿着铁匠街前行，最终失血过多而死。'},
+        {type:'clue',clueId:'d1-qiuye-injury',text:'他的身上有多处外伤，皮肤上的撞击伤和挫伤极似械斗所致。'}
+      ]},
+      {type:'text',text:'警方并没有对这件事情进行具体定性，但似乎大家已经认定了罪魁祸首是银桥帮。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'我很难想象金善勇真的会对秋叶哥痛下杀手，即便我并不喜欢金善勇，也不认为他无辜。银桥帮大多数是银桥职高的学生，算是烟酒行的常客，因而'},
+        {type:'clue',clueId:'d1-yinqiao-harmless',text:'我见过他们还不起烟钱的时候对我爸唯唯诺诺的样子，也见过他们和其他帮派起冲突，几波人推推搡搡半天最终留下一点皮外伤就散伙。'}
+      ]},
+      {type:'text',text:'我不相信秋叶哥会死于这种幼稚的械斗中，以极其悲烈的姿态变成大家的谈资。我不相信，但在金银镇日复一日扁平的生活中，也许人们需要的正是跌宕激烈的青少年杀人事件。'}
+    ]},
+    // ===== 第四篇：阿超 =====
+    {title:'阿超',views:19,comments:3,clueIds:[],content:[
+      {type:'text',text:'阿超刚才来烟酒行找我。'},
+      {type:'text',text:'他曾是秋叶哥的同班同学，算是秋叶哥的好朋友。他人很瘦，讲话温声细气，读初中的时候老受人欺负，被起一些难听的外号。但我和秋叶哥从不会那么叫他。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'阿超的成绩原本能够上县城高中，但因为家里说'},
+        {type:'search',text:'银桥职高',keyword:'银桥职业高中'},
+        {type:'text',text:'毕业之后能直接工作，他便听了家里的话。秋叶哥去省中之后，我和他有很长一段时间没有联系，再在烟酒行遇见时，他已经在帮银桥帮的人跑腿买烟了。'}
+      ]},
+      {type:'text',text:'他见我时仍有点局促。自从跟着银桥帮混之后，他即便来烟酒行也会有意避开我，大概是担心我看不起他。我问他什么事，他有点迟疑，讲话仍温吞："铭铭姐……秋叶哥不是勇哥杀的。"'},
+      {type:'text',text:'我对他口中的哥姐称呼感到一阵反胃，想把他往门外推："大晚上跑过来就是为了给金善勇说好话吗？我可受不住你叫我姐。"'},
+      {type:'text',text:'他被我刺得一阵脸红，用身体挡在门前，怕我真的要赶他走，急匆匆地吐出这句话：我、我当然在乎秋叶哥、我不知道、不知道该怎么办……'},
+      {type:'text',text:'我看到他的眼眶红了。等我意识到的时候，眼泪已经顺着我的脸颊落到手背了。'}
+    ]},
+    // ===== 第五篇：西郊会面 =====
+    {title:'西郊会面',views:30,comments:6,clueIds:['d1-weapons-harmless','d1-meeting-brief','d1-qiuye-alone'],content:[
+      {type:'text',text:'阿超说，谁也没料到会这样。'},
+      {type:'text',text:'他一口气和我讲了很多话，以下是阿超对于所谓"械斗"的讲述：'},
+      {type:'mixed',segments:[
+        {type:'text',text:'我们都知道秋叶哥一点错都没有。金善勇被那女生拒绝了，觉得脸上挂不住，才嚷嚷着要去找秋叶哥麻烦，大概觉得这样能够找回点他作为老大的面子。就连和金善勇最亲近的几个，也觉得是小题大做，我们都没抄什么家伙什，'},
+        {type:'clue',clueId:'d1-weapons-harmless',text:'除了他自己带了几根甩棍和小匕首，有几根匕首连刃都没开。'}
+      ]},
+      {type:'text',text:'我们是七点多在西郊见的面，初夏的天色刚刚暗下来的时候。秋叶哥是自己来的，只背了个黑色的单肩包，有几个人见面便抢了他的包，但只翻出来几袋零食一样的东西，就把包还给了他。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'金善勇照例放了几句狠话，我耳朵都要听烂了，但秋叶哥一直很平静地试图和他解释说不要强人所难，尤其是对待那个女孩子。我之前和几个熟悉秋叶哥的人私底下串通好了，'},
+        {type:'clue',clueId:'d1-meeting-brief',text:'大概站了十几分钟就出来打圆场，说着让秋叶哥道个歉，这事就算完了。'}
+      ]},
+      {type:'clue',clueId:'d1-qiuye-alone',text:'但秋叶哥没道歉，他说他该说的话已经说尽了。他说完便转头走了。有几个人想追上去，金善勇说挥挥手说算了，想了一下，对着秋叶哥背影喊：这次饶了你，你敢再去见她，我就真的弄死你。'}
+    ]},
+    // ===== 第六篇：网吧 =====
+    {title:'网吧',views:25,comments:4,clueIds:['d1-alibi','d1-jin-lingyu-deal','d1-liuyan-west'],content:[
+      {type:'text',text:'但秋叶哥真的死了。我打断阿超，这完全不能够排除金善勇的嫌疑。阿超摆摆手，说之后他一直和金善勇在一起——'},
+      {type:'mixed',segments:[
+        {type:'text',text:'在从西郊回镇上之后，'},
+        {type:'clue',clueId:'d1-alibi',text:'我们几个人一起去宇宙网吧上网，一直通宵到凌晨'},
+        {type:'text',text:'，警察找到我们的时候，我们才知道秋叶哥的死。'}
+      ]},
+      {type:'mixed',segments:[
+        {type:'text',text:'他没有机会动手的。可能唯一有点奇怪的是，中途他使唤我去买烟，回来的时候我看见'},
+        {type:'clue',clueId:'d1-jin-lingyu-deal',text:'他和网吧老板宇哥在聊天，听到他们在讲要做个大生意。'},
+        {type:'text',text:'我问他什么大生意，他让我把烟留下，人滚远一点。'}
+      ]},
+      {type:'text',text:'我坐回去，隐约听到他们在谈什么"好东西""没啥风险""谁能管得着"。隔了一会儿，我发现打火机不见了，想起来之前老跟宇哥的跟班刘言借打火机，那会儿我才注意到刘言一直没在。'},
+      {type:'mixed',segments:[
+        {type:'text',text:''},
+        {type:'clue',clueId:'d1-liuyan-west',text:'别人告诉我刘言出去和人谈生意了，好像是往西边走的。'},
+        {type:'text',text:'听说我们是从西郊回来的，那人还问我们有没有碰到过刘言。'}
+      ]},
+      {type:'text',text:'现在回想起来，秋叶哥当时也是自己往更西的方向去了，也有点蹊跷。西郊的靠山的地方传说阴气重得很，之前好像发生过火灾，况且还有个老疯子老在西边晃来晃去，大家都有点顾虑。'},
+      {type:'text',text:'铭铭，你说，秋叶哥是不是独自见了其他什么人，又被那个人害死？'}
+    ]},
+    // ===== 第七篇：诅咒 =====
+    {title:'诅咒',views:31,comments:5,clueIds:[],content:[
+      {type:'text',text:'我不确定阿超说的是不是真的。也许秋叶哥那天真的去了别的地方，见了什么人，然后被残忍地杀害了。'},
+      {type:'text',text:'但我很难想象出这样一个人：他极其可信，可信到秋叶哥愿意单独和他见面，谁也没告诉；他又极其残忍，残忍到将铁棍贯穿秋叶哥的胸腔，眼睁睁看着秋叶哥一点点挪回镇上试图求救，失血而亡。'},
+      {type:'text',text:'还是社会青年械斗更容易想象一点，金银镇的人都和我一样缺乏想象力，因而"铁匠街少年杀人事件"才会如此迅速地传播开来。我在论坛上看到很多乐此不疲的讨论，仿佛秋叶哥的死只是一个刺激性的事件，而他优异的成绩、沿着铁匠街留下的血迹都只是让这个故事更多些奇幻的色彩。'},
+      {type:'text',text:'人们常说铁匠街的孩子终会感受到铁匠街的召唤，但秋叶哥不该是以这种方式回到铁匠街。因而我希望我能够想象出这样一个人，那个让秋叶哥单独赴约的人，想象出真正的凶手。'},
+      {type:'text',text:'但我目前脑袋仍乱成一团乱麻。'},
+      {type:'text',text:'妈妈好像又在大声对金念吼着什么，隔了一会儿又传来她的抽泣声。爷爷剧烈的咳嗽夹杂在其中，像是要把肺叶都咳出来。铁匠街的铁铺都已经消失了，铁匠街的人仍要生活着，这咳嗽声便是铁的印记，刻在了无数铁匠街老人的肺部，折磨着他们的晚年。铁匠街的召唤到底是什么，在今夜，我第一次感受到铁匠街留给我们的并非坚韧的品格，而是无尽的诅咒。'}
+    ]}
+    ]},
+  2:{date:'6月7日',diary:{title:'待更新',views:0,comments:0,content:[{type:'text',text:'[ 等待用户提供 Day 2 日记内容 ]'}]}},
+  3:{date:'6月8日',diary:{title:'待更新',views:0,comments:0,content:[{type:'text',text:'[ 等待用户提供 Day 3 日记内容 ]'}]}},
+  4:{date:'6月9日',diary:{title:'待更新',views:0,comments:0,content:[{type:'text',text:'[ 等待用户提供 Day 4 日记内容 ]'}]}}
+},
+
+// ---- SEARCH ENGINE ----
+search:{
+  '铁匠街少年杀人事件':{title:'《出大事了！铁匠街死人了！！》 — 金银镇本地论坛',url:'www.jinyintown-bbs.cn/thread/8801',snippet:'1楼：高中生横死铁匠街，死因系铁棍贯穿胸口，听说是和银桥帮起冲突了。场面太吓人了……2楼：铁匠街真邪乎，听说了好多铁匠街的灵异事件。3楼：前几年不是还有一场械斗，也是差点死了人……"。',dayAvailable:1,unlocks:[],clueId:null},
+  '老赵书店':{title:'专业教辅、二手书买卖，就找老赵书店',url:'zhao19600516@mail.com',snippet:'老赵书店位于铁匠街东段，铭念烟酒行隔壁。主营中小学教辅资料及二手书回收转卖。联系方式：zhao19600516@mail.com。',dayAvailable:1,unlocks:[],clueId:'d1-zhao-contact'},
+  '实验中学':{title:'实验中学官方网站 — 省城重点高中',url:'www.shiyan-highschool.edu.cn',snippet:'省城实验中学，升学率常年位居全省前三，每年为清北大学等高校输送近千名学子……',dayAvailable:1,unlocks:[],clueId:null},
+  '银桥帮':{title:'《银桥帮势力范围详解》 — 银桥职高贴吧',url:'tieba.baidu.com/p/34159287',snippet:'帖子列出银桥帮主要成员外号，包括"勇哥"（金善勇）、"阿龙""小胖"，提到"宇哥"（赵凌宇）是宇宙网吧老板，和银桥帮关系密切。帖子底部有人评论：别赴了"新城帮"后尘，就和刘言那伙人似的。',dayAvailable:1,unlocks:['宇宙网吧'],clueId:null},
+  '张氏铁铺':{title:'张氏铁铺 — 本地生活服务页面',url:'www.jinyintown-life.cn/shop/zhang',snippet:'地址：铁匠街西段。营业范围：铁器加工、农具修理。用户评价为0。定价范围：特制菜刀5000元一把，厨具10000元一套，农具20000元一套。有意者咨询张翠梅。',dayAvailable:1,unlocks:['张翠梅'],clueId:null},
+  '金银镇 火灾':{title:'《铁匠街西郊一厂房发生火灾，无人伤亡》 — 金银镇本地新闻网（1998年旧闻）',url:'www.jinyintown-news.cn/1998/0615',snippet:'起火地点为"望秋铁业厂房"，起火原因"疑为机器老化"。另有一条无法打开的链接，标题为：《望秋铁业的前世今生——》，点击显示"404"。',dayAvailable:1,unlocks:['望秋铁业'],clueId:null},
+  '银桥职业高中':{title:'银桥职业高中 — 学校官网',url:'www.yinqiao-vocational.edu.cn',snippet:'学校介绍专业设置，办学特色"技术立校，就业为先"。但贴吧中有大量讨论打架、收保护费的帖子，校风评价两极分化。',dayAvailable:1,unlocks:[],clueId:null},
+  '铭念烟酒行':{title:'铭念烟酒行 · 铁匠街东段24小时便利店',url:'dianping.com/shop/mingnian',snippet:'铭念烟酒行位于铁匠街东段，老赵书店隔壁。店主姓金，24小时营业。',dayAvailable:1,unlocks:[],clueId:'d1-jin-contact'},
+  '铁匠街':{title:'金银镇铁匠街 — 百度百科',url:'baike.baidu.com/item/铁匠街',snippet:'铁匠街位于金银镇中心区域，因历史上聚集大量铁匠铺而得名。鼎盛时期曾有铁铺三十余家。如今仅剩张氏铁铺一家仍在营业。',dayAvailable:1,unlocks:[],clueId:null},
+  '金银镇':{title:'金银镇概况',url:'www.jinyintown-gov.cn/about',snippet:'金银镇，位于省城以东约90公里。历史上以铁器加工和金银饰品加工闻名，故得名"金银镇"。近年来因交通不便、产业衰退，年轻人多外出务工。特色产业：无。未来规划：尚未公布。',dayAvailable:1,unlocks:[],clueId:null},
+  '宇宙网吧':{title:'[占位] 宇宙网吧',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '张翠梅':{title:'[占位] 张翠梅',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null,onSearch:'zhangcuimeiRequest'},
+  '望秋铁业':{title:'[占位] 望秋铁业',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '金银镇 废墟':{title:'[占位] 金银镇废墟',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '金银镇 命案':{title:'[占位] 金银镇命案',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '新叶报刊亭':{title:'[占位] 新叶报刊亭',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '金银镇初中':{title:'[占位] 金银镇初中',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '金银镇 械斗':{title:'[占位] 金银镇械斗',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '金银镇 西郊河':{title:'[占位] 金银镇西郊河',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '交易网站':{title:'[占位] 交易网站',url:'#',snippet:'[等待用户提供内容 — Day3]',dayAvailable:3,unlocks:[],clueId:null},
+  '金银镇发展':{title:'[占位] 金银镇发展',url:'#',snippet:'[等待用户提供内容 — Day3]',dayAvailable:3,unlocks:[],clueId:null},
+  '治病救人':{title:'[占位] 治病救人',url:'#',snippet:'[等待用户提供内容 — Day4]',dayAvailable:4,unlocks:[],clueId:null},
+  '金银镇 巫术':{title:'[占位] 金银镇巫术',url:'#',snippet:'[等待用户提供内容 — Day4]',dayAvailable:4,unlocks:[],clueId:null},
+  '望秋铁业 火灾':{title:'[占位] 望秋铁业火灾',url:'#',snippet:'[等待用户提供内容 — Day4]',dayAvailable:4,unlocks:[],clueId:null}
+},
+
+// ---- CLUE DETAILS ----
+clues:{
+  'd1-qiuye-student':'赵秋叶成绩很好，考上了省城实验高中，且几乎不会参与镇上的少年帮派斗争。',
+  'd1-jinshanyong-challenge':'金善勇向赵秋叶下过战书，导火索是金善勇喜欢的女生。',
+  'd1-qiuye-last-words':'下午在面馆吃完饭后，赵秋叶离开面馆,前去找金善勇赴约。',
+  'd1-not-first-scene':'张氏铁铺并非第一案发现场，血迹从远处一直蔓延到尸体发现地。',
+  'd1-qiuye-injury':'赵秋叶身上有多处外伤，因而大家认为是械斗所致。',
+  'd1-yinqiao-harmless':'金善勇所在的银桥帮很少发生恶性械斗。',
+  'd1-weapons-harmless':'金善勇携带的武器并没有杀伤性。',
+  'd1-meeting-brief':'银桥帮和赵秋叶七点多见面，仅十几分钟后就散场。',
+  'd1-qiuye-alone':'和银桥帮见面之后，赵秋叶单独行动。',
+  'd1-alibi':'金善勇等人一直在网吧待到凌晨，没有作案时间。',
+  'd1-jin-lingyu-deal':'金善勇和赵凌宇似乎在进行一些不可告人的生意。',
+  'd1-liuyan-west':'刘言曾独自前往西郊。',
+  'd1-zhao-contact':'赵秋叶父亲的联系方式：zhao19600516@mail.com。老赵书店的经营者。',
+  'd1-jin-contact':'金铭父亲的联系方式：jin19750422@mail.com。铭念烟酒行的经营者。'
+},
+
+// ---- SPECIAL MECHANISMS ----
+groupChatEntry:{question:'银桥帮大哥大嫂是谁？（提示：男名+女名+99）',answers:['金善勇张叶玲99','金善勇 张叶玲 99']},
+friendRequests:{zhangcuimei:{dayAvailable:2,question:'铁匠街最后一家铁铺叫什么名字？',answers:['张氏铁铺','张氏铁铺是最后一家']}},
+spacePasswords:{zhaoqiuye:{question:'我的生日是？（提示：8位数字）',answer:'19980822'}},
+
+// ---- PUZZLES (4 days) ----
+puzzles:{
+  1:{question:'在银桥帮会面后，赵秋叶实际要见的是？',hint:'提示：仔细阅读赵秋叶的QQ空间日志，看看他反复提到的那个名字。秋叶哥在回金银镇之前，说过要去找谁？',answers:['小叶','是小叶','找小叶'],successMsg:'正确！赵秋叶离开银桥帮后，实际要去见的是小叶。'},
+  2:{question:'[占位 — 等待用户提供 Day 2 谜题]',hint:'提示：等待用户提供',answers:['占位'],successMsg:'[等待用户提供 successMsg — Day2]'},
+  3:{question:'[占位 — 等待用户提供 Day 3 谜题]',hint:'提示：等待用户提供',answers:['占位'],successMsg:'[等待用户提供 successMsg — Day3]'},
+  4:[
+    {question:'[占位 — 等待用户提供 Day 4 谜题一]',hint:'提示：等待用户提供',answers:['占位'],successMsg:'[等待用户提供 successMsg — Day4 Puzzle 1]'},
+    {question:'[占位 — 等待用户提供 Day 4 谜题二]',hint:'提示：等待用户提供',answers:['占位'],successMsg:'[等待用户提供 successMsg — Day4 Puzzle 2]'}
+  ]
+},
+
+// ---- TRUTH PAGE ----
+truth:{title:'真相',content:'<p>[ 占位内容 — 等待用户提供真相页文本。编辑 GAME_DATA.truth.content 即可替换。]</p>',credits:'<p>铁匠街少年杀人事件</p><p>—— 第一章 完 ——</p>'}
+
+};
+
+// ═════════════════════ END OF GAME_DATA ═════════════════════
+
+// ==================== GAME STATE ====================
+var DEFAULT_STATE={day:1,clues:[],visitedSpaces:[],searchHistory:[],searchUnlocked:[],puzzleSolved:[false,false,false,false],puzzleAttempts:[0,0,0,0],day4puzzle1Solved:false,day4puzzle2Solved:false,groupChatUnlocked:false,friendRequestsApproved:[],zhaoqiuyeUnlocked:false,ending:false,day1SubDiary:0,day1SubCluesCollected:[]};
+var gameState=loadGameState();
+
+function loadGameState(){
+  try{var s=safeStorageGet('tiesmith-game-v2');if(s){var p=JSON.parse(s);var out={};for(var k in DEFAULT_STATE)out[k]=DEFAULT_STATE[k];for(var k in p)out[k]=p[k];return out}}catch(e){console.warn(e)}
+  var out={};for(var k in DEFAULT_STATE)out[k]=DEFAULT_STATE[k];return out;
+}
+function saveGameState(){safeStorageSet('tiesmith-game-v2',JSON.stringify(gameState))}
+function resetGameState(){safeStorageRemove('tiesmith-game-v2');gameState=loadGameState();switchPhase(PHASE.INTRO);renderIntro()}
+function addClue(id){if(id&&gameState.clues.indexOf(id)===-1)gameState.clues.push(id)}
+function hasClue(id){return gameState.clues.indexOf(id)!==-1}
+function addSearchUnlocked(kw){if(kw&&gameState.searchUnlocked.indexOf(kw)===-1)gameState.searchUnlocked.push(kw)}
+
+// ==================== TOAST & MODAL ====================
+function showToast(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},2200)}
+function openModal(id){document.getElementById(id).classList.add('show')}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+document.addEventListener('click',function(e){if(e.target.classList.contains('modal-overlay'))e.target.classList.remove('show')});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var modals=document.querySelectorAll('.modal-overlay.show');for(var i=0;i<modals.length;i++)modals[i].classList.remove('show')}});
+
+// ==================== INTRO & TITLE ====================
+function renderIntro(){var el=document.getElementById('intro-text');if(el)el.textContent=GAME_DATA.intro.text}
+function renderTitle(){var el=document.getElementById('eva-instructions');if(el)el.textContent=GAME_DATA.title.instructions}
+
+// ==================== DIAG BAR ====================
+function updateDiagBar(){var d=document.getElementById('__diag__');if(d){d.innerHTML='HTML OK | CSS OK | JS OK | Day '+gameState.day+' | Engine v2';d.style.background='#060';setTimeout(function(){d.style.display='none'},1500)}}
+
+// ==================== STATUS BAR ====================
+function updateStatusBar(){var dayEl=document.getElementById('status-day');var cluesEl=document.getElementById('status-clues');if(dayEl)dayEl.textContent='第 '+gameState.day+' 天';if(cluesEl)cluesEl.textContent='线索: '+gameState.clues.length}
+
+// ==================== MAIN RENDERING ====================
+function renderAll(){renderMainContent();renderFriendsList();renderSearchHints();updateStatusBar()}
+
+function renderMainContent(){
+  var main=document.getElementById('main-content');if(!main)return;
+  var day=gameState.day,dd=GAME_DATA.days[day];if(!dd)return;
+  var h='';
+  // Day bar
+  h+='<div class="day-bar"><span class="day-badge">第 '+day+' 天</span><span class="day-date">'+dd.date+'</span></div>';
+  // Check if sub-diaries exist (Day 1)
+  if(dd.diaries){
+    var subIdx=gameState.day1SubDiary||0;
+    var sub=dd.diaries[subIdx];
+    var totalSubs=dd.diaries.length;
+    // Sub-diary card
+    h+='<div class="diary-card"><h2 class="diary-title">'+sub.title+'</h2>';
+    h+='<div class="diary-meta">金铭 | '+dd.date+' | 第 '+(subIdx+1)+'/'+totalSubs+' 篇 | '+sub.views+' 次阅读 | '+sub.comments+' 条评论</div>';
+    h+='<div class="diary-body">';
+    for(var i=0;i<sub.content.length;i++){
+      h+=renderParagraph(sub.content[i]);
+    }
+    h+='</div></div>';
+    // Sub-diary navigation
+    h+='<div class="next-day-section" style="display:flex;justify-content:space-between;align-items:center;">';
+    // Prev button
+    if(subIdx>0){
+      h+='<button class="btn-win98" onclick="prevSubDiary()" style="font-size:12px;">&lt; 上一篇</button>';
+    }else{
+      h+='<span></span>';
+    }
+    // Sub-diary indicator
+    h+='<span style="font-size:12px;color:#808080;">'+(subIdx+1)+' / '+totalSubs+'</span>';
+    // Next button
+    if(subIdx<totalSubs-1){
+      var subClueIds=sub.clueIds||[];
+      var allCollected=true;
+      for(var ci=0;ci<subClueIds.length;ci++){
+        if(gameState.clues.indexOf(subClueIds[ci])===-1){allCollected=false;break;}
+      }
+      if(allCollected){
+        h+='<button class="btn-win98 primary" onclick="nextSubDiary()" style="font-size:12px;">下一篇 &gt;</button>';
+      }else{
+        h+='<button class="btn-win98" disabled style="font-size:12px;">请先收集全部线索 ('+subClueIds.length+'个)</button>';
+      }
+    }else{
+      h+='<span></span>';
+    }
+    h+='</div>';
+    // Always show clue panel, puzzle, and next button
+    h+=buildCluePanel();
+    h+=buildPuzzleHTML(day);
+    h+=buildNextButton(day);
+  }else{
+    // Standard single-diary mode (Days 2-4)
+    h+='<div class="diary-card"><h2 class="diary-title">'+dd.diary.title+'</h2>';
+    h+='<div class="diary-meta">金铭 | '+dd.date+' | '+dd.diary.views+' 次阅读 | '+dd.diary.comments+' 条评论</div>';
+    h+='<div class="diary-body">';
+    for(var j=0;j<dd.diary.content.length;j++){
+      h+=renderParagraph(dd.diary.content[j]);
+    }
+    h+='</div></div>';
+    h+=buildCluePanel();
+    h+=buildPuzzleHTML(day);
+    h+=buildNextButton(day);
+  }
+  main.innerHTML=h;
+}
+
+function renderParagraph(p){
+  if(p.type==='text')return '<p>'+p.text+'</p>';
+  if(p.type==='clue'){
+    var collected=hasClue(p.clueId);
+    return '<p><span class="clue-inline'+(collected?' collected':'')+'" onclick="onClueClick(\''+p.clueId+'\')" title="点击收集线索">'+p.text+'</span></p>';
+  }
+  if(p.type==='search'){
+    return '<p style="text-indent:2em;"><span class="search-term" onclick="onSearchTermClick(\''+p.keyword+'\')" title="点击复制词条">'+p.text+'</span></p>';
+  }
+  if(p.type==='mixed'){
+    var h='<p>';
+    for(var i=0;i<p.segments.length;i++){
+      var seg=p.segments[i];
+      if(seg.type==='text')h+=seg.text;
+      else if(seg.type==='clue'){
+        var c=hasClue(seg.clueId);
+        h+='<span class="clue-inline'+(c?' collected':'')+'" onclick="onClueClick(\''+seg.clueId+'\')" title="点击收集线索">'+seg.text+'</span>';
+      }else if(seg.type==='search'){
+        h+='<span class="search-term" onclick="onSearchTermClick(\''+seg.keyword+'\')" title="点击复制词条">'+seg.text+'</span>';
+      }
+    }
+    h+='</p>';
+    return h;
+  }
+  return '<p>'+p.text+'</p>';
+}
+
+// Sub-diary navigation
+function prevSubDiary(){if(gameState.day1SubDiary>0){gameState.day1SubDiary--;saveGameState();renderMainContent();window.scrollTo({top:0,behavior:'smooth'})}}
+function nextSubDiary(){
+  var dd=GAME_DATA.days[1];if(!dd||!dd.diaries)return;
+  var subIdx=gameState.day1SubDiary||0;
+  var sub=dd.diaries[subIdx];if(!sub)return;
+  var subClueIds=sub.clueIds||[];
+  var allCollected=true;
+  for(var ci=0;ci<subClueIds.length;ci++){if(gameState.clues.indexOf(subClueIds[ci])===-1){allCollected=false;break;}}
+  if(allCollected&&subIdx<dd.diaries.length-1){gameState.day1SubDiary++;saveGameState();renderMainContent();window.scrollTo({top:0,behavior:'smooth'})}
+}
+
+// Click handlers for inline clue and search term
+function onClueClick(clueId){
+  if(hasClue(clueId))return;
+  addClue(clueId);saveGameState();renderMainContent();showToast('[ + ] 新线索已记录');
+}
+function onSearchTermClick(keyword){
+  showToast('已复制词条：'+keyword);
+  // Also add to search history for convenience
+  if(gameState.searchHistory.indexOf(keyword)===-1){gameState.searchHistory.push(keyword);saveGameState()}
+}
+
+function buildCluePanel(){
+  var allClues=gameState.clues.slice();
+  if(allClues.length===0)return '';
+  var h='<div class="diary-card"><h3 style="font-size:13px;color:#000080;margin-bottom:8px;">[ 已发现的线索 ] ('+allClues.length+')</h3>';
+  h+='<div class="clue-panel-fixed">';
+  for(var i=0;i<allClues.length;i++){
+    var cd=GAME_DATA.clues[allClues[i]];
+    if(cd)h+='<div class="clue-card"><div class="clue-label">[ 线索发现 ]</div><div>'+cd+'</div></div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+
+function buildPuzzleHTML(day){
+  if(day===4)return buildDay4PuzzleHTML();
+  var p=GAME_DATA.puzzles[day];
+  var solved=gameState.puzzleSolved[day-1];
+  var h='<div class="diary-card"><div class="puzzle-card" id="puzzle-card-main">';
+  if(solved){
+    h+='<div class="puzzle-title">[ 谜题已解开 ]</div><div style="color:#006600;font-weight:bold;">'+p.successMsg+'</div>';
+  }else{
+    h+='<div class="puzzle-title">[ 今日谜题 ]</div><div>'+p.question+'</div>';
+    if(gameState.puzzleAttempts[day-1]>=2)h+='<p style="color:#CC6600;font-size:12px;margin-top:6px;">'+p.hint+'</p>';
+    h+='<div class="puzzle-input-row"><input type="text" id="puzzle-answer-main" placeholder="输入你的答案…" onkeydown="if(event.key===\'Enter\')submitAnswer(\'main\')"><button class="btn-win98 primary" onclick="submitAnswer(\'main\')">提交答案</button></div>';
+    h+='<div class="puzzle-feedback" id="puzzle-feedback-main"></div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+
+function buildDay4PuzzleHTML(){
+  var p1=GAME_DATA.puzzles[4][0],p2=GAME_DATA.puzzles[4][1];
+  var s1=gameState.day4puzzle1Solved,s2=gameState.day4puzzle2Solved;
+  var h='';
+  // Puzzle 1
+  h+='<div class="diary-card"><div class="puzzle-card" id="puzzle-card-a">';
+  if(s1){h+='<div class="puzzle-title">[ 谜题一 · 已解开 ]</div><div style="color:#006600;font-weight:bold;">'+p1.successMsg+'</div>';}
+  else{
+    h+='<div class="puzzle-title">[ 今日谜题 一 ]</div><div>'+p1.question+'</div>';
+    if(gameState.puzzleAttempts[3]>=2)h+='<p style="color:#CC6600;font-size:12px;margin-top:6px;">'+p1.hint+'</p>';
+    h+='<div class="puzzle-input-row"><input type="text" id="puzzle-answer-a" placeholder="输入你的答案…" onkeydown="if(event.key===\'Enter\')submitAnswer(\'a\')"><button class="btn-win98 primary" onclick="submitAnswer(\'a\')">提交答案</button></div>';
+    h+='<div class="puzzle-feedback" id="puzzle-feedback-a"></div>';
+  }
+  h+='</div></div>';
+  // Puzzle 2 (only visible after puzzle 1 solved)
+  if(s1){
+    h+='<div class="diary-card"><div class="puzzle-card" id="puzzle-card-b">';
+    if(s2){h+='<div class="puzzle-title">[ 谜题二 · 已解开 ]</div><div style="color:#006600;font-weight:bold;">'+p2.successMsg+'</div>';}
+    else{
+      h+='<div class="puzzle-title">[ 今日谜题 二 ]</div><div>'+p2.question+'</div>';
+      if(gameState.puzzleAttempts[4]>=2)h+='<p style="color:#CC6600;font-size:12px;margin-top:6px;">'+p2.hint+'</p>';
+      h+='<div class="puzzle-input-row"><input type="text" id="puzzle-answer-b" placeholder="输入你的答案…" onkeydown="if(event.key===\'Enter\')submitAnswer(\'b\')"><button class="btn-win98 primary" onclick="submitAnswer(\'b\')">提交答案</button></div>';
+      h+='<div class="puzzle-feedback" id="puzzle-feedback-b"></div>';
+    }
+    h+='</div></div>';
+  }
+  return h;
+}
+
+function buildNextButton(day){
+  var h='<div class="next-day-section">';
+  if(day===4){
+    if(gameState.day4puzzle1Solved&&gameState.day4puzzle2Solved&&!gameState.ending)h+='<button class="btn-win98 big primary" onclick="triggerTruth()">揭示真相</button>';
+    else h+='<button class="btn-win98 big" disabled>请先解开所有谜题</button>';
+  }else{
+    if(gameState.puzzleSolved[day-1])h+='<button class="btn-win98 big primary" onclick="nextDay()">下一天 &gt;</button>';
+    else h+='<button class="btn-win98 big" disabled>请先解开谜题</button>';
+  }
+  h+='</div>';
+  return h;
+}
+
+function onHighlightClick(clueId){addClue(clueId);saveGameState();renderMainContent();showToast('[ + ] 新线索已记录')}
+
+// ==================== FRIENDS LIST ====================
+function renderFriendsList(){
+  var list=document.getElementById('friends-list');if(!list)return;
+  var day=gameState.day,availableIds=(GAME_DATA.dayFriends[day]||[]).slice();
+  // Add approved friends
+  for(var i=0;i<gameState.friendRequestsApproved.length;i++){
+    var fid=gameState.friendRequestsApproved[i];
+    if(availableIds.indexOf(fid)===-1)availableIds.push(fid);
+  }
+  var h='';
+  for(var i=0;i<availableIds.length;i++){
+    var fid=availableIds[i],f=GAME_DATA.friends[fid];if(!f)continue;
+    var hasNew=friendHasNewContent(fid,day);
+    var visited=gameState.visitedSpaces.indexOf(fid+'-day'+day)!==-1;
+    h+='<button class="friend-item" onclick="openFriendSpace(\''+fid+'\')" style="'+(visited&&!hasNew?'opacity:0.6':'')+'">';
+    h+='<div class="friend-avatar" style="background:'+f.avatarBg+'">'+f.avatarText+'</div>';
+    h+='<div><div class="friend-name">'+f.name+'</div><div class="friend-status">'+(f.signature||'').substring(0,10)+'…</div></div>';
+    if(hasNew&&!visited)h+='<span class="friend-badge">NEW</span>';
+    h+='</button>';
+  }
+  list.innerHTML=h;
+}
+function friendHasNewContent(fid,day){var f=GAME_DATA.friends[fid];return f&&f.posts[day]&&f.posts[day].length>0}
+
+// ==================== SEARCH HINTS (History) ====================
+function renderSearchHints(){
+  var hints=document.getElementById('search-hints');if(!hints)return;
+  var history=gameState.searchHistory.slice();
+  if(history.length===0){hints.innerHTML='<span style="font-size:11px;color:#808080;">你的搜索历史将显示在这里…</span>';return;}
+  // Show most recent first, max 10
+  if(history.length>10)history=history.slice(-10);
+  history.reverse();
+  var h='<span style="font-weight:bold;font-size:11px;">历史搜索：</span>';
+  for(var i=0;i<history.length;i++){h+='<span class="hint-tag" onclick="quickSearch(\''+history[i]+'\')">'+history[i]+'</span>'}
+  hints.innerHTML=h;
+}
+
+// ==================== FRIEND SPACE ====================
+function openFriendSpace(fid){
+  if(fid==='xinchengbang'&&!gameState.groupChatUnlocked){openGroupChatEntry();return}
+  if(fid==='zhangcuimei'&&gameState.friendRequestsApproved.indexOf('zhangcuimei')===-1){openFriendRequest('zhangcuimei');return}
+  if(fid==='zhaoqiuye'&&!gameState.zhaoqiuyeUnlocked){openZhaoqiuyePassword();return}
+  var f=GAME_DATA.friends[fid];if(!f)return;
+  var day=gameState.day;
+  var visitKey=fid+'-day'+day;
+  if(gameState.visitedSpaces.indexOf(visitKey)===-1)gameState.visitedSpaces.push(visitKey);
+  addCluesFromFriend(fid,day);
+  var h='<div class="space-header"><div class="space-avatar" style="background:'+f.avatarBg+'">'+f.avatarText+'</div>';
+  h+='<div style="font-weight:bold;font-size:15px;">'+f.name+'的空间</div>';
+  h+='<div style="font-size:12px;color:#808080;">'+f.bio+'</div>';
+  h+='<div style="font-size:11px;color:#808080;">签名：'+f.signature+'</div></div>';
+  var posts=f.posts[day]||[];
+  if(posts.length===0)h+='<p style="text-align:center;color:#808080;padding:16px;">该好友今日暂无新内容。</p>';
+  else for(var i=0;i<posts.length;i++){var p=posts[i];h+='<div class="space-post"><div class="post-time">'+p.time+'</div><div>'+p.content+'</div>'+(p.note?'<div style="font-size:11px;color:#808080;margin-top:4px;font-style:italic;">'+p.note+'</div>':'')+'</div>'}
+  document.getElementById('friend-modal-title').textContent=f.name+'的空间';
+  document.getElementById('friend-modal-body').innerHTML=h;
+  openModal('modal-friend');saveGameState();renderFriendsList();renderMainContent();
+}
+function addCluesFromFriend(fid,day){
+  var m={'zhaoqiuye':{1:['d1-zhao-contact']},'jinshanyong':{1:['d1-jinshanyong-challenge']},'achao':{1:['d1-alibi','d1-liuyan-west']},'mingnian':{1:['d1-jin-contact']},'xinchengbang':{1:['d1-meeting-brief','d1-weapons-harmless','d1-qiuye-alone']}};
+  var clues=(m[fid]&&m[fid][day])?m[fid][day]:[];for(var i=0;i<clues.length;i++)addClue(clues[i]);
+}
+
+// ---- Group Chat Entry ----
+function openGroupChatEntry(){
+  var h='<div style="text-align:center;padding:20px;"><div style="font-size:16px;color:#000080;margin-bottom:6px;">银桥帮的群聊</div><div style="color:#808080;margin-bottom:16px;">此群为私密群，需要回答验证问题才能查看。</div><div class="entry-question-box"><div class="eq-title">验证问题</div><div>'+GAME_DATA.groupChatEntry.question+'</div><div class="eq-input-row"><input type="text" id="group-chat-answer" placeholder="输入你的答案…" onkeydown="if(event.key===\'Enter\')submitGroupChatAnswer()"><button class="btn-win98 primary" onclick="submitGroupChatAnswer()">确认</button></div><div id="group-chat-feedback" style="margin-top:8px;font-size:12px;color:#CC0000;"></div></div></div>';
+  document.getElementById('friend-modal-title').textContent='银桥帮的群聊';
+  document.getElementById('friend-modal-body').innerHTML=h;
+  openModal('modal-friend');
+}
+function submitGroupChatAnswer(){
+  var input=document.getElementById('group-chat-answer'),fb=document.getElementById('group-chat-feedback');
+  if(!input||!fb)return;
+  var ans=input.value.trim();if(!ans){fb.textContent='请输入答案';return}
+  var answers=GAME_DATA.groupChatEntry.answers,correct=false;
+  for(var i=0;i<answers.length;i++){if(ans.indexOf(answers[i])!==-1||answers[i].indexOf(ans)!==-1){correct=true;break}}
+  if(correct){gameState.groupChatUnlocked=true;saveGameState();fb.style.color='#006600';fb.textContent='[ OK ] 验证通过！';setTimeout(function(){closeModal('modal-friend');openFriendSpace('xinchengbang')},800)}
+  else fb.textContent='答案不正确，再想想看。';
+}
+
+// ---- Friend Request ----
+function openFriendRequest(fid){
+  var req=GAME_DATA.friendRequests[fid];if(!req)return;
+  var f=GAME_DATA.friends[fid];
+  var h='<div style="text-align:center;padding:20px;"><div style="font-size:16px;color:#000080;margin-bottom:6px;">添加好友：'+f.name+'</div><div style="color:#808080;margin-bottom:16px;">对方设置了验证问题，请回答后发送好友申请。</div><div class="entry-question-box"><div class="eq-title">验证问题</div><div>'+req.question+'</div><div class="eq-input-row"><input type="text" id="friend-req-answer" placeholder="输入你的答案…" onkeydown="if(event.key===\'Enter\')submitFriendRequest(\''+fid+'\')"><button class="btn-win98 primary" onclick="submitFriendRequest(\''+fid+'\')">发送申请</button></div><div id="friend-req-feedback" style="margin-top:8px;font-size:12px;color:#CC0000;"></div></div></div>';
+  document.getElementById('friend-modal-title').textContent='添加好友';
+  document.getElementById('friend-modal-body').innerHTML=h;
+  openModal('modal-friend');
+}
+function submitFriendRequest(fid){
+  var req=GAME_DATA.friendRequests[fid];if(!req)return;
+  var input=document.getElementById('friend-req-answer'),fb=document.getElementById('friend-req-feedback');
+  if(!input||!fb)return;
+  var ans=input.value.trim();if(!ans){fb.textContent='请输入答案';return}
+  var correct=false;
+  for(var i=0;i<req.answers.length;i++){if(ans.indexOf(req.answers[i])!==-1||req.answers[i].indexOf(ans)!==-1){correct=true;break}}
+  if(correct){if(gameState.friendRequestsApproved.indexOf(fid)===-1)gameState.friendRequestsApproved.push(fid);saveGameState();fb.style.color='#006600';fb.textContent='[ OK ] 验证通过！好友已添加。';setTimeout(function(){closeModal('modal-friend');renderFriendsList();showToast('[ + ] '+GAME_DATA.friends[fid].name+' 已添加到好友列表')},800)}
+  else fb.textContent='答案不正确，再想想看。';
+}
+
+// ---- Zhao Qiuye Space Password ----
+function openZhaoqiuyePassword(){
+  var pw=GAME_DATA.spacePasswords.zhaoqiuye;
+  var h='<div style="text-align:center;padding:20px;"><div style="font-size:16px;color:#000080;margin-bottom:6px;">赵秋叶的QQ空间</div><div style="color:#808080;margin-bottom:16px;">私密日志，输入密码可解锁。</div><div class="entry-question-box"><div class="eq-title">验证问题</div><div>'+pw.question+'</div><div class="eq-input-row"><input type="text" id="zhaoqiuye-pw-answer" placeholder="输入8位数字…" onkeydown="if(event.key===\'Enter\')submitZhaoqiuyePassword()"><button class="btn-win98 primary" onclick="submitZhaoqiuyePassword()">确认</button></div><div id="zhaoqiuye-pw-feedback" style="margin-top:8px;font-size:12px;color:#CC0000;"></div></div></div>';
+  document.getElementById('friend-modal-title').textContent='赵秋叶的QQ空间';
+  document.getElementById('friend-modal-body').innerHTML=h;
+  openModal('modal-friend');
+}
+function submitZhaoqiuyePassword(){
+  var input=document.getElementById('zhaoqiuye-pw-answer'),fb=document.getElementById('zhaoqiuye-pw-feedback');
+  if(!input||!fb)return;
+  var ans=input.value.trim();if(!ans){fb.textContent='请输入答案';return}
+  if(ans===GAME_DATA.spacePasswords.zhaoqiuye.answer){
+    gameState.zhaoqiuyeUnlocked=true;saveGameState();
+    fb.style.color='#006600';fb.textContent='[ OK ] 密码正确！';
+    setTimeout(function(){closeModal('modal-friend');openFriendSpace('zhaoqiuye')},800);
+  }else{fb.textContent='密码不正确，再想想看。'}
+}
+
+// ==================== SEARCH ENGINE ====================
+function openSearch(){document.getElementById('search-input').value='';document.getElementById('search-results').innerHTML='<div style="text-align:center;color:#808080;padding:30px;">输入关键词开始搜索线索…</div>';renderSearchHints();openModal('modal-search')}
+function quickSearch(kw){document.getElementById('search-input').value=kw;doSearch()}
+
+function doSearch(){
+  var q=document.getElementById('search-input').value.trim();if(!q)return;
+  if(gameState.searchHistory.indexOf(q)===-1)gameState.searchHistory.push(q);
+  var day=gameState.day,html='',anyClue=false;
+  if(GAME_DATA.search[q]&&GAME_DATA.search[q].dayAvailable<=day){
+    html+=processSearch(q,GAME_DATA.search[q]);anyClue=true;
+  }else{
+    var matches=fuzzySearch(q,day);
+    for(var i=0;i<matches.length;i++){html+=processSearch(matches[i][0],matches[i][1]);anyClue=true}
+  }
+  if(!html)html='<div style="text-align:center;color:#808080;padding:30px;">没有找到与"'+q+'"相关的结果。<br><span style="font-size:11px;">试试换个关键词搜索吧。</span></div>';
+  document.getElementById('search-results').innerHTML=html;
+  if(anyClue){showToast('[ + ] 搜索发现了新线索！');renderMainContent();renderFriendsList()}
+  saveGameState();renderSearchHints();
+}
+function processSearch(kw,data){
+  addSearchUnlocked(kw);if(data.unlocks)for(var i=0;i<data.unlocks.length;i++)addSearchUnlocked(data.unlocks[i]);
+  if(data.clueId&&!hasClue(data.clueId))addClue(data.clueId);
+  if(data.onSearch==='zhangcuimeiRequest'&&gameState.friendRequestsApproved.indexOf('zhangcuimei')===-1)setTimeout(function(){openFriendRequest('zhangcuimei')},500);
+  return '<div class="search-result-item"><div class="result-title">'+data.title+'</div><div class="result-url">'+data.url+'</div><div class="result-snippet">'+data.snippet+'</div></div>';
+}
+function fuzzySearch(q,day){
+  var results=[],ql=q.toLowerCase();
+  for(var kw in GAME_DATA.search){var d=GAME_DATA.search[kw];if(d.dayAvailable>day)continue;var kl=kw.toLowerCase();if(kl.indexOf(ql)!==-1||ql.indexOf(kl)!==-1||charOverlap(ql,kl)>0.5)results.push([kw,d])}
+  results.sort(function(a,b){return a[0].toLowerCase().indexOf(ql)!==-1?-1:1});
+  return results.slice(0,8);
+}
+function charOverlap(a,b){
+  var sa={},sb={};for(var i=0;i<a.length;i++)if(a[i]!==' ')sa[a[i]]=true;for(var j=0;j<b.length;j++)if(b[j]!==' ')sb[b[j]]=true;
+  var overlap=0;for(var k in sa)if(sb[k])overlap++;
+  return overlap/Math.max(Object.keys(sa).length,Object.keys(sb).length);
+}
+
+// ==================== PUZZLE SOLVING ====================
+function submitAnswer(slot){
+  var day=gameState.day,puzzle,puzzleIdx,solvedFlag,inputId='puzzle-answer-'+slot,fbId='puzzle-feedback-'+slot;
+  if(day===4){if(slot==='a'){puzzle=GAME_DATA.puzzles[4][0];puzzleIdx=3;solvedFlag='day4puzzle1Solved'}else{puzzle=GAME_DATA.puzzles[4][1];puzzleIdx=4;solvedFlag='day4puzzle2Solved'}}
+  else{puzzle=GAME_DATA.puzzles[day];puzzleIdx=day-1}
+  if(day!==4&&gameState.puzzleSolved[puzzleIdx])return;if(day===4&&gameState[solvedFlag])return;
+  var input=document.getElementById(inputId),fb=document.getElementById(fbId);if(!input||!fb)return;
+  var ans=input.value.trim();if(!ans){fb.className='puzzle-feedback error';fb.textContent='请输入答案';return}
+  var correct=false;for(var i=0;i<puzzle.answers.length;i++){var a=puzzle.answers[i];if(ans.indexOf(a)!==-1||a.indexOf(ans)!==-1){correct=true;break}}
+  gameState.puzzleAttempts[puzzleIdx]++;
+  if(correct){
+    if(day===4)gameState[solvedFlag]=true;else gameState.puzzleSolved[puzzleIdx]=true;
+    fb.className='puzzle-feedback success';fb.textContent='[ OK ] '+puzzle.successMsg;input.disabled=true;
+    for(var kw in GAME_DATA.search){if(GAME_DATA.search[kw].dayAvailable===day+1)addSearchUnlocked(kw)}
+    saveGameState();renderAll();
+  }else{fb.className='puzzle-feedback error';fb.textContent=gameState.puzzleAttempts[puzzleIdx]>=2?'不太对。试试换个角度思考？看看提示吧。':'不太对，再想想看。';saveGameState();if(gameState.puzzleAttempts[puzzleIdx]>=2)renderAll()}
+}
+function nextDay(){if(gameState.day<4&&gameState.puzzleSolved[gameState.day-1]){gameState.day++;saveGameState();renderAll();window.scrollTo({top:0,behavior:'smooth'});showToast('>> 进入第 '+gameState.day+' 天')}}
+
+// ==================== DIARY REVIEW ====================
+function openDiaryReview(){
+  var body=document.getElementById('diary-review-body');if(!body)return;
+  var h='<ul class="diary-review-list">';
+  for(var d=gameState.day;d>=1;d--){var dd=GAME_DATA.days[d];if(!dd)continue;
+    var locked=d>1&&!gameState.puzzleSolved[d-2];
+    var title=dd.diary?dd.diary.title:(dd.diaries?dd.diaries[0].title+' 等'+dd.diaries.length+'篇':'');
+    h+='<li class="diary-review-item" '+(locked?'style="opacity:0.4;cursor:not-allowed;"':'onclick="viewDiaryEntry('+d+')"')+'>';
+    h+='<div style="font-weight:bold;">'+(locked?'[ ? ? ? ]':title)+'</div><div class="review-date">'+dd.date+(locked?' — 需先解开前一天谜题':' — 点击回顾')+'</div></li>';
+  }
+  h+='</ul><div id="diary-full-view" style="margin-top:12px;"></div>';
+  body.innerHTML=h;openModal('modal-diary-review');
+}
+function viewDiaryEntry(dayNum){
+  var view=document.getElementById('diary-full-view');if(!view)return;
+  var dd=GAME_DATA.days[dayNum];if(!dd)return;
+  if(dd.diaries){
+    // Day 1: show all sub-diaries
+    var h2='<div style="border-top:1px solid #CCC;padding-top:12px;"><h3 style="color:#000080;margin-bottom:4px;">6月6日 日记回顾</h3><div class="diary-full-content">';
+    for(var s=0;s<dd.diaries.length;s++){
+      var sub=dd.diaries[s];
+      h2+='<h4 style="color:#000080;margin-top:14px;">'+sub.title+'</h4>';
+      for(var i=0;i<sub.content.length;i++){
+        h2+=reviewRenderParagraph(sub.content[i]);
+      }
+    }
+    h2+='</div></div>';view.innerHTML=h2;
+  }else{
+    var h3='<div style="border-top:1px solid #CCC;padding-top:12px;"><h3 style="color:#000080;margin-bottom:4px;">'+dd.diary.title+'</h3><div style="color:#808080;font-size:11px;margin-bottom:10px;">'+dd.date+'</div><div class="diary-full-content">';
+    for(var j=0;j<dd.diary.content.length;j++){
+      h3+=reviewRenderParagraph(dd.diary.content[j]);
+    }
+    h3+='</div></div>';view.innerHTML=h3;
+  }
+}
+function reviewRenderParagraph(p){
+  if(p.type==='text')return '<p>'+p.text+'</p>';
+  if(p.type==='clue')return '<p>'+p.text+'</p>';
+  if(p.type==='search')return '<p>'+p.text+'</p>';
+  if(p.type==='mixed'){
+    var h='<p>';
+    for(var j=0;j<p.segments.length;j++){
+      var seg=p.segments[j];
+      h+=seg.text;
+    }
+    h+='</p>';
+    return h;
+  }
+  return '<p>'+p.text+'</p>';
+}
+
+// ==================== TRUTH PAGE ====================
+function triggerTruth(){
+  if(gameState.day!==4||!gameState.day4puzzle1Solved||!gameState.day4puzzle2Solved)return;
+  gameState.ending=true;saveGameState();
+  var td=GAME_DATA.truth,scene=document.getElementById('truth-scene');
+  scene.innerHTML='<h2>'+td.title+'</h2><div class="truth-body">'+td.content+'</div><div class="truth-credits">'+td.credits+'</div><div style="text-align:center;margin-top:20px;"><button class="btn-win98 big" onclick="resetGameState()" style="background:#333;color:#CC8800;border-color:#555 #222 #222 #555;">重新开始</button></div>';
+  var flash=document.getElementById('crt-boot-flash');if(flash){flash.classList.remove('hidden');setTimeout(function(){flash.classList.add('hidden')},400)}
+  setTimeout(function(){switchPhase(PHASE.TRUTH)},200);
+}
+
+// ==================== BOOT SEQUENCE ====================
+function boot(){
+  // Diag
+  var cssOk=document.getElementById('__css_ok__'),jsOk=document.getElementById('__js_ok__');
+  if(cssOk){cssOk.textContent='OK';cssOk.style.color='#0F0'}if(jsOk){jsOk.textContent='OK';jsOk.style.color='#0F0'}
+  // Event listeners
+  var btnSearch=document.getElementById('btn-open-search');if(btnSearch)btnSearch.addEventListener('click',openSearch);
+  var btnDiary=document.getElementById('btn-diary-review');if(btnDiary)btnDiary.addEventListener('click',openDiaryReview);
+  var btnR1=document.getElementById('btn-reset-game');if(btnR1)btnR1.addEventListener('click',function(){if(confirm('确定要清除所有存档并重新开始吗？'))resetGameState()});
+  var btnR2=document.getElementById('btn-reset-game2');if(btnR2)btnR2.addEventListener('click',function(){if(confirm('确定要清除所有存档并重新开始吗？'))resetGameState()});
+  // Return to game button in truth page
+  var truthScene=document.getElementById('truth-scene');
+  truthScene.addEventListener('click',function(e){if(e.target.tagName==='BUTTON'&&e.target.textContent.indexOf('重新开始')!==-1)resetGameState()});
+
+  renderIntro();
+  // Intro -> Title on click
+  document.getElementById('page-intro').addEventListener('click',function handler(){if(appPhase===PHASE.INTRO){switchPhase(PHASE.TITLE);renderTitle()}});
+  // Title -> Game on click
+  document.getElementById('page-title').addEventListener('click',function handler(){if(appPhase===PHASE.TITLE){var flash=document.getElementById('crt-boot-flash');if(flash){flash.classList.remove('hidden');setTimeout(function(){flash.classList.add('hidden')},400)}setTimeout(function(){switchPhase(PHASE.GAME);updateDiagBar()},200)}});
+
+  // Returning player: skip to game
+  if(gameState.ending){renderTruthFromState();return}
+  if(gameState.day>1||gameState.puzzleSolved[0]){switchPhase(PHASE.GAME);return}
+  console.log('铁匠街少年杀人事件 — Game Engine v2');
+}
+
+function renderTruthFromState(){
+  var td=GAME_DATA.truth,scene=document.getElementById('truth-scene');
+  scene.innerHTML='<h2>'+td.title+'</h2><div class="truth-body">'+td.content+'</div><div class="truth-credits">'+td.credits+'</div><div style="text-align:center;margin-top:20px;"><button class="btn-win98 big" onclick="resetGameState()" style="background:#333;color:#CC8800;border-color:#555 #222 #222 #555;">重新开始</button></div>';
+  switchPhase(PHASE.TRUTH);
+}
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+</script>
+
+</body>
+</html>
