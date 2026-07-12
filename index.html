@@ -801,6 +801,61 @@ body {
   font-family: Tahoma, sans-serif;
 }
 
+/* Group chat — QQ group chat window circa 2006
+   Inset bevel container matching diary-card language.
+   Navy left rule echoes the titlebar gradient. */
+.chat-container {
+  background: #E8E8E8;
+  border: 2px inset #C0C0C0;
+}
+.chat-header-bar {
+  background: linear-gradient(180deg, #E8E8E8, #D4D4D4);
+  border-bottom: 1px solid #808080;
+  padding: 8px 14px;
+  text-align: center;
+}
+.chat-header-bar .chat-title {
+  font-weight: bold;
+  font-size: 13px;
+  color: #000080;
+  font-family: Tahoma, "SimSun", sans-serif;
+}
+.chat-header-bar .chat-members {
+  font-size: 10px;
+  color: #808080;
+  margin-top: 1px;
+}
+.chat-msg {
+  padding: 7px 14px 7px 12px;
+  border-left: 2px solid #000080;
+  margin: 1px 0;
+  background: #FFFFFF;
+  font-size: 12px;
+  line-height: 1.85;
+  transition: background 0.12s;
+}
+.chat-msg:nth-child(even) {
+  background: #F5F5F5;
+}
+.chat-msg:hover {
+  background: #EEF0FF;
+}
+.chat-msg .chat-time {
+  font-size: 10px;
+  color: #808080;
+  font-family: Tahoma, sans-serif;
+  margin-bottom: 1px;
+}
+.chat-system-msg {
+  text-align: center;
+  font-size: 10px;
+  color: #808080;
+  padding: 8px 0 4px;
+  font-family: Tahoma, "SimSun", sans-serif;
+  border-top: 1px dotted #C0C0C0;
+  margin-top: 4px;
+}
+
 /* Search modal */
 .search-result-item {
   padding: 10px 0;
@@ -1239,6 +1294,7 @@ body {
               <button class="profile-nav-item" id="btn-diary-review">我的日志</button>
               <button class="profile-nav-item">我的相册</button>
               <button class="profile-nav-item">我的留言</button>
+              <button class="profile-nav-item" id="btn-notebook">笔记本</button>
               <button class="profile-nav-item" id="btn-reset-game">重新开始</button>
             </div>
           </div>
@@ -1331,6 +1387,7 @@ body {
       <span>金银镇本地搜索 | 部分结果可能不可用</span>
     </div>
   </div>
+</div><!-- /#modal-search -->
 </div><!-- /#page-game -->
 
 <!-- ========== TRUTH PAGE ========== -->
@@ -1349,6 +1406,27 @@ body {
     </div>
     <div class="modal-client" id="diary-review-body"></div>
     <div class="status-bar"><span>点击日记标题回顾过往内容 | 按 ESC 关闭</span></div>
+  </div>
+</div>
+
+<!-- ========== NOTEBOOK MODAL ========== -->
+<div class="modal-overlay" id="modal-notebook">
+  <div class="modal-window" style="width:520px;">
+    <div class="window-titlebar">
+      <div class="title-text">调查笔记本</div>
+      <div class="title-buttons">
+        <button class="title-btn" onclick="closeModal('modal-notebook')">&times;</button>
+      </div>
+    </div>
+    <div class="modal-client">
+      <textarea id="notebook-textarea" style="width:100%;height:300px;font-family:SimSun,Tahoma,sans-serif;font-size:13px;padding:10px;border:2px inset #C0C0C0;background:#EEF0EC;color:#333;resize:vertical;line-height:1.8;"
+        placeholder="在此记录线索和想法…&#10;&#10;提示：&#10;· 关键人物关系&#10;· 已发现线索的时间线&#10;· 未解之谜和疑问&#10;· 案件推理过程"></textarea>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
+        <span style="flex:1;font-size:11px;color:#808080;line-height:24px;">自动保存至本地浏览器</span>
+        <button class="btn-win98" onclick="closeModal('modal-notebook')" style="font-size:12px;">关闭</button>
+        <button class="btn-win98 primary" onclick="saveNotebook();closeModal('modal-notebook')" style="font-size:12px;">保存</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1414,24 +1492,43 @@ friends:{
       {time:'2014年5月31日',content:'月底了，赊账的记得来结一下，小本生意，互相体谅。',note:''},
       {time:'2010年6月20日',content:'有没有人认识省城看儿童心理的专家？私聊。跪求推荐靠谱医生。',note:''}
     ],2:[],3:[],4:[]}},
-  zhangye:{id:'zhangye',name:'张叶',avatarBg:'linear-gradient(135deg,#567,#789)',avatarText:'张',bio:'银桥职高 · 人称"小叶"',signature:'有钱不赚是傻子',
+  zhangye:{id:'zhangye',name:'爱丽爱你',avatarBg:'linear-gradient(135deg,#567,#789)',avatarText:'张',bio:'备注：张叶玲',signature:'谁会记住秋天来时的每片落叶',
     posts:{1:[],2:[
-      {time:'6月6日',content:'这两天别找我。出去避避风头。',note:''}
+      {time:'2014年6月4日',content:'好想去死 又觉得该死的另有其人',note:''},
+      {time:'2014年5月22日',content:'烦死了。什么大哥大嫂，他们能不能去死啊。那个娘娘腔刘志超居然也和他们混在一起了。我恨你们。去死去死去死去死去死去死去死',note:''},
+      {time:'2014年1月23日',content:'又考了倒数第一。班里没人愿意给我讲题了，那个姓金的老在学校门口晃来晃去的，大家都不太敢和我说话了。偶尔会想起赵秋叶，但他应该在省中交到了很多新朋友吧，果然我们再也没见过。<br><br>他还说他不会变呢，骗子。',note:''},
+      {time:'2013年7月2日',content:'中考成绩出来了。赵秋叶考了镇中第一，按他的成绩稳稳能上省中。我打心底为他开心，他就是这么厉害的人，但又有点为自己难过。我差两分才能上县城中学，其实已经比我平时的成绩好很多了，我平时只能刚刚够职高分数。但妈还是骂了我一顿，说我只知道打扮，又在算该找多少人花多少钱才能把我送进县中。<br><br>可是如果有可能的话，谁不想要赵秋叶的脑子啊。我也真的努力了，题怎么也算不懂，我也不知道才能够拿到好成绩。在学习上没人在乎我也没人看得起我，谁都觉得我是笨蛋，只有讨论化妆品和爱豆的时候大家才会把我说的话当回事。',note:''},
+      {time:'2013年4月5日',content:'赵秋叶来问我最近为什么不理他了。我说最近太多人说我们的闲话了，我不喜欢这样。赵秋叶说为什么要管别人怎么想，我们清清白白的就好了。他又说最近看我的数学练习册一直没交，是不是遇到什么很难懂的地方了。<br><br>他这个人真够怪的，书呆子一个，别人说他就爱和娘娘腔以及烟酒行那个假小子玩。书呆子，假小子，娘娘腔，但可能别人也会私底下叫我大笨蛋吧。<br><br>但我真的想好好学习，我也真心羡慕他的。比起和那些爱说闲话的人，我确实更想和秋叶做朋友。',note:''},
+      {time:'2013年3月22日',content:'我好笨啊，怎么都学不会。赵秋叶来给我讲题，大家都在起哄，我恼火得不想和那些人说话，但他们人多势众又找不到理由，最后只能不和赵秋叶说话。',note:''}
     ],3:[],4:[]}},
-  zhaolingyu:{id:'zhaolingyu',name:'赵凌宇',avatarBg:'linear-gradient(135deg,#654,#876)',avatarText:'凌',bio:'宇宙网吧老板',signature:'谁能管得着',
+
+  liuyan:{id:'liuyan',name:'༻薄ོ情ོོ凉ོོ心ོꦿ࿐',avatarBg:'linear-gradient(135deg,#654,#876)',avatarText:'言',bio:'备注：刘言',signature:'☆★-落寞的年华、伤已糜烂、',
     posts:{1:[],2:[
-      {time:'6月6日',content:'我哥不是那种会跟人结仇的人。肯定有别的事。',note:''},
-      {time:'6月7日',content:'今天警察又来家里了。我妈哭了一整天。',note:''}
+      {time:'2014年6月5日',content:'操。',note:''},
+      {time:'2014年5月24日',content:'宇哥大好人啊！滴水之恩！涌泉相报！今生不忘兄弟情！来世不忘兄弟义！',note:''},
+      {time:'2014年5月18日',content:'【推广】急需用钱的兄弟看过来！最新网贷口子，无视黑白户，当天审核当天到账。利息低，手续简单，只要身份证就能借。资质不行的找客服报我名字，优先审核。点击链接下载：http://dai.jieqian123.cn/',note:''},
+      {time:'2014年4月20日',content:'输麻了。之前赢的全吐回去了，还倒贴三千。不敢跟阿龙他们说，太丢人了。一闭眼脑子里全是数字，红红绿绿的，晃得我想吐。有一瞬间想把电脑砸了，但这台还是上次骗那个老头给买的，操了，天天捏着嗓子陪人家聊天，还被封了几个号。妈的。本来想这把赢了就把之前欠宇哥的钱还了。现在倒好，又得想办法搞钱。明天找阿龙问问有没有什么来钱快的路子。操。',note:''},
+      {time:'2014年3月30日',content:'【重磅推荐】兄弟们！发现一个新平台，赔率比别家高，提现秒到账。新用户注册就送50元体验金，不花自己一分钱就能玩。扫码下载，我的邀请码：LY888。用这个码注册，首充翻倍。别说有好事我没叫你们。',note:''},
+      {time:'2014年2月15日',content:'情人节一个人过。之前在网上聊了个妹妹，照片发过来还挺好看的。聊了两个月，给她充了三百块话费。我说见个面吧，她说她在省城读书不方便。我信了。说好了情人节去省城找她，我车票都买好了，结果被拉黑了。勇哥告诉我，那其实是隔壁镇一个男的假扮的，初中没毕业就开始干这行了，骗了好几个。<br><br>我操了，真傻逼啊。话又说回来，这种事是个人就能干，不能只有我犯傻逼。',note:''}
     ],3:[],4:[]}},
-  zhangcuimei:{id:'zhangcuimei',name:'张翠梅',avatarBg:'linear-gradient(135deg,#666,#888)',avatarText:'梅',bio:'铁匠街最后一家铁铺 · 神婆',signature:'心诚则灵，药到病除',
+  zhangcuimei:{id:'zhangcuimei',name:'上善若水',avatarBg:'linear-gradient(135deg,#666,#888)',avatarText:'梅',bio:'备注：张翠梅',signature:'心诚则灵，药到病除',
     posts:{1:[],2:[
-      {time:'6月6日',content:'今天警察来铁铺问话了。我说我什么都不知道，早上开门就看见那孩子躺在那儿。<br><br>刀不是铁铺的。我家的刀都是新打的，没开过刃。',note:''}
+      {time:'2014年6月5日',content:'今早一开门，门前竟有这般事。是劫数。阿弥陀佛，愿逝者安息，往生极乐。这几日暂停营业。',note:''},
+      {time:'2014年5月30日',content:'夏至已过，阳气渐衰。近期身体不适、夜梦不宁的缘主可前来铁铺。',note:''},
+      {time:'2014年5月15日',content:'有缘千里来相会，无缘对面不相逢。只求有缘人，不信者勿扰。切记祸从口出，近期管控甚严，缘主留言切需谨慎。<br><br>另：新制成了一批铁器，之前预约的缘主请这两日来取，过期不候。',note:''},
+      {time:'2014年4月25日',content:'功德群已满百人，群内每日分享养生心法，偶尔也讲讲铁匠街从前的故事。有些话这里不便说，群里可以讲。搜：芭 漆 坝 叁 留 耳 散 雾',note:''}
+    ],3:[],4:[]}},
+  gongdequn:{id:'gongdequn',name:'张氏铁铺·有缘人功德群',avatarBg:'linear-gradient(135deg,#474,#696)',avatarText:'德',bio:'QQ群 · 治病救人，普度众生',signature:'广结善缘，随喜功德',
+    posts:{1:[],2:[
+      {time:'2014年4月30日 10:15',content:'<strong>张威龙</strong>：@所有人 各位缘主早安。新到一批药材，家母昨晚连夜配的，数量有限。有需要调理身体的、求平安符的、或者不太好开口的事，都可以私聊我预约。家母年纪大了不看群，大家有事直接找我。<br><strong>刘姐</strong>：@张威龙 小龙，我预约两副。婆婆上次给开的，喝了一个月，睡眠好多了。<br><strong>张威龙</strong>：@刘姐 好嘞，给您记上了。这次的钱还是老规矩，取药的时候现结。<br><strong>诚心诚意</strong>：小龙，我问一下，那个保男孩的方子，现在能约吗？我家儿媳妇坐了三个小月子了，一直是没能给家里续上香火。医院非说再流的话可能怀都怀不上了。急死我了。<br><strong>张威龙</strong>：@诚心诚意 那个方子一直能约的。但婆婆说了，那个药和普通的不一样，得本人亲自来铺里，要看看面相和生辰八字。药是其次，关键是心诚不诚，命里和男丁有没有缘分。你让她哪天有空过来，提前跟我说，我安排婆婆在店里等着。<br><strong>诚心诚意</strong>：好的好的。我回去跟她说。钱不是问题。',note:''},
+      {time:'2014年5月15日 15:10',content:'<strong>张威龙</strong>：@所有人 各位缘主，再次提醒一下——最近查得紧，大家不要对外讲些不该讲的话，我上个号已经被封了，网络上一律以定制铁器代称。自家神药不包邮，必须本人或家属到金银镇指定地点来取，提前和我预约取药时间。这是婆婆定的规矩，多少年了都是这样。<br><strong>李阿姨</strong>：理解！现在的人真是，啥都乱举报，这明明是老祖宗留下来的智慧！<br><strong>静心</strong>：婆婆不渡无缘之人，让那些人自评造化吧。@张威龙 小龙，我今晚八点半去取药，还是西边老地方吧，提前和你说一声。',note:''},
+      {time:'2014年6月5日',content:'<strong>刘姐</strong>：出事了！！！你们知道了吗？张婆婆的铺子门口死人了！是个学生！警察都来了！张婆婆也被带走问话了！天哪怎么会有这种事！是不是有什么不好的东西！<br><strong>诚心诚意</strong>：听说了。好像是铁匠街东头老赵家的孩子。我早上送孙子上学路过，看到拉了警戒线，吓死人了。那孩子怎么偏偏倒在那里？<br><strong>静心</strong>：你们说会不会是什么东西作祟？铁匠街本来就阴气重，这几年关了那么多铺子，那些没处去的铁魂……<br><strong>李阿姨</strong>：@静心 别乱说。警察说了是人祸，不是鬼怪。但具体怎么回事还不清楚。<br><strong>李伯</strong>：那个位置。老铁匠街的人都知道。那个位置以前出过事的。你们有些人年轻不知道。这都多少年了，又来了。<br><strong>张威龙</strong>：各位缘主请听我一言。刚才刘姐说的事是真的，我也正在了解情况。婆婆受了惊吓，但人没事。大家不要慌，更不要在群里讨论太多细节，现在警察还在查，我们不要乱传消息，传多了对婆婆、对大家都不好。那个学生的事我们也很痛心。但这件事和张氏铁铺、和婆婆的药没有关系。他是在别的地方出的事，只是倒在了铺子门口。各位缘主都是老熟人了，知道婆婆这些年做的是什么，治病救人，不做亏心事。铺子门口发生这种事，我们比谁都难过。群规再提醒一下：不要在群里讨论和药方无关的事情，更不要转那些乱七八糟的帖子。有什么最新消息我会跟大家说。婆婆这几天可能暂时不接诊，大家先别来铺子，等通知。<br><strong>刘姐</strong>：@张威龙 好的小龙。婆婆没事就好。我们都信婆婆。<br><strong>诚心诚意</strong>：@张威龙 收到。那个学生可惜了。跟咱没关系就好。等你通知。',note:''}
     ],3:[],4:[]}},
   fengzi:{id:'fengzi',name:'疯子',avatarBg:'linear-gradient(135deg,#777,#999)',avatarText:'望',bio:'无家可归者 · 常在铁匠街游荡',signature:'火不是我放的……',
     posts:{1:[],2:[],3:[
       {time:'未知',content:'<em>（金铭与疯子的对话记录）</em><br><br>疯子坐在铁匠街废弃的淬火池旁边，用树枝在地上写字。字写得非常工整，是楷体。他写的是：<br><br><strong>"金银镇方志卷一：铁匠街旧事……"</strong><br><br>下面有一行被反复划掉又重写的句子：<br><br><strong>"纵火者非我，而举镇皆目之为贼……"</strong><br><br>金铭问他："你还记得那个孩子吗？"<br><br>疯子忽然抬头，眼神变得异常清明：<br><br><strong>"那个孩子，我给他盖了被子。冷了，盖被子。"</strong>',note:''}
     ],4:[]}},
-  xinchengbang:{id:'xinchengbang',name:'银桥帮的群聊',avatarBg:'linear-gradient(135deg,#338,#66A)',avatarText:'群',bio:'QQ群 · 银桥职高の夜露死苦',signature:'自己带家伙，不带的站远点',
+  xinchengbang:{id:'xinchengbang',name:'银桥职高の夜露死苦',avatarBg:'linear-gradient(135deg,#338,#66A)',avatarText:'群',bio:'QQ群 · 银桥帮的群聊',signature:'自己带家伙，不带的站远点',
     posts:{1:[
       {time:'6月5日 18:30',content:'<strong>阿龙</strong>：谁到西郊了？我和小胖到了。这边一个人没有，怪瘆人的。<br><strong>小胖</strong>：不是说那个疯子老在西郊转悠吗 不会撞上吧<br><strong>阿龙</strong>：你他妈别吓人',note:''},
       {time:'6月5日 18:45',content:'<strong>勇哥</strong>：我们到了。赵秋叶来了没。<br><strong>阿龙</strong>：还没看到人 兄弟们都差不多到齐了<br><strong>阿超</strong>：勇哥，待会儿差不多就行了，别真的打起来。<br><strong>阿龙</strong>：闭上你妈的嘴吧 勇哥还能没数的？',note:''},
@@ -1443,16 +1540,19 @@ friends:{
 },
 
 // ---- Friends available per day ----
-dayFriends:{1:['zhaoqiuye','jinshanyong','achao','mingnian','xinchengbang'],2:['zhaoqiuye','jinshanyong','achao','mingnian','xinchengbang','zhangye','zhaolingyu','zhangcuimei'],3:['zhaoqiuye','jinshanyong','achao','mingnian','xinchengbang','zhangye','zhaolingyu','zhangcuimei'],4:['zhaoqiuye','jinshanyong','achao','mingnian','xinchengbang','zhangye','zhaolingyu','zhangcuimei','fengzi']},
+dayFriends:{1:['zhaoqiuye','jinshanyong','achao','mingnian'],2:['zhaoqiuye','jinshanyong','achao','mingnian','zhangye','liuyan'],3:['zhaoqiuye','jinshanyong','achao','mingnian','zhangye','liuyan'],4:['zhaoqiuye','jinshanyong','achao','mingnian','zhangye','liuyan','fengzi']},
 
 // ---- DAILY DIARY ----
 days:{
   1:{date:'6月6日',diaries:[
     // ===== 第一篇：赵秋叶 =====
-    {title:'赵秋叶',views:23,comments:5,clueIds:['d1-qiuye-student'],content:[
+    {title:'赵秋叶',views:23,comments:0,clueIds:['d1-qiuye-student'],content:[
       {type:'mixed',segments:[
         {type:'text',text:'我没想过秋叶哥会死。'},
-        {type:'text',text:'准确来讲，在此之前我从未想过现实中的死亡，因而直到现在我的大脑仍一片混乱。但我知道我一定要将这一切记录下来。我要记住这一切，关于赵秋叶，关于所谓'},
+      ]},
+       {type:'mixed',segments:[
+        {type:'text',text:'准确来讲，在此之前我从未想过现实中的死亡，因而直到现在我的大脑仍一片混乱。'},
+        {type:'text',text:'但我知道我一定要将这一切记录下来。我要记住这一切，关于赵秋叶，关于所谓'},
         {type:'search',text:'铁匠街少年杀人事件',keyword:'铁匠街少年杀人事件'},
         {type:'text',text:'。'}
       ]},
@@ -1469,7 +1569,7 @@ days:{
       ]}
     ]},
     // ===== 第二篇：战书 =====
-    {title:'战书',views:28,comments:7,clueIds:['d1-jinshanyong-challenge','d1-qiuye-last-words'],content:[
+    {title:'战书',views:28,comments:0,clueIds:['d1-jinshanyong-challenge','d1-qiuye-last-words'],content:[
       {type:'text',text:'我最后一次见秋叶哥是昨天下午，我翘了自习课，去金银镇车站接他。他坐六点到达的班车，恰好到了饭点，我们去了我最喜欢的面馆吃面。'},
       {type:'mixed',segments:[
         {type:'text',text:'因为会考占用了他们的教室，他罕见地能够在周四回到镇上。我不是唯一知道他会提前回来的人，事实上镇上的初高中生几乎都听说了'},
@@ -1487,7 +1587,7 @@ days:{
       {type:'text',text:'这就是他对我讲的最后一句话。'}
     ]},
     // ===== 第三篇：铁匠街少年杀人事件 =====
-    {title:'铁匠街少年杀人事件',views:35,comments:9,clueIds:['d1-not-first-scene','d1-qiuye-injury','d1-yinqiao-harmless'],content:[
+    {title:'铁匠街少年杀人事件',views:35,comments:0,clueIds:['d1-not-first-scene','d1-qiuye-injury','d1-yinqiao-harmless'],content:[
       {type:'text',text:'从昨夜秋叶哥没有回复消息开始，我便感受到隐隐的不安，但我没想到这种不安会获得最糟糕的回应。'},
       {type:'text',text:'我并没有见到秋叶哥的尸体，路过铁匠街的时候现场已被警戒线和层层叠叠的人围住，我从路人的私语中拼凑出了这个事实。'},
       {type:'mixed',segments:[
@@ -1506,7 +1606,7 @@ days:{
       {type:'text',text:'我不相信秋叶哥会死于这种幼稚的械斗中，以极其悲烈的姿态变成大家的谈资。我不相信，但在金银镇日复一日扁平的生活中，也许人们需要的正是跌宕激烈的青少年杀人事件。'}
     ]},
     // ===== 第四篇：阿超 =====
-    {title:'阿超',views:19,comments:3,clueIds:[],content:[
+    {title:'阿超',views:19,comments:0,clueIds:[],content:[
       {type:'text',text:'阿超刚才来烟酒行找我。'},
       {type:'text',text:'他曾是秋叶哥的同班同学，算是秋叶哥的好朋友。他人很瘦，讲话温声细气，读初中的时候老受人欺负，被起一些难听的外号。但我和秋叶哥从不会那么叫他。'},
       {type:'mixed',segments:[
@@ -1520,7 +1620,7 @@ days:{
       {type:'text',text:'我看到他的眼眶红了。等我意识到的时候，眼泪已经顺着我的脸颊落到手背了。'}
     ]},
     // ===== 第五篇：西郊会面 =====
-    {title:'西郊会面',views:30,comments:6,clueIds:['d1-weapons-harmless','d1-meeting-brief','d1-qiuye-alone'],content:[
+    {title:'西郊会面',views:30,comments:0,clueIds:['d1-weapons-harmless','d1-meeting-brief','d1-qiuye-alone'],content:[
       {type:'text',text:'阿超说，谁也没料到会这样。'},
       {type:'text',text:'他一口气和我讲了很多话，以下是阿超对于所谓"械斗"的讲述：'},
       {type:'mixed',segments:[
@@ -1535,7 +1635,7 @@ days:{
       {type:'clue',clueId:'d1-qiuye-alone',text:'但秋叶哥没道歉，他说他该说的话已经说尽了。他说完便转头走了。有几个人想追上去，金善勇说挥挥手说算了，想了一下，对着秋叶哥背影喊：这次饶了你，你敢再去见她，我就真的弄死你。'}
     ]},
     // ===== 第六篇：网吧 =====
-    {title:'网吧',views:25,comments:4,clueIds:['d1-alibi','d1-jin-lingyu-deal','d1-liuyan-west'],content:[
+    {title:'网吧',views:25,comments:0,clueIds:['d1-alibi','d1-jin-lingyu-deal','d1-liuyan-west'],content:[
       {type:'text',text:'但秋叶哥真的死了。我打断阿超，这完全不能够排除金善勇的嫌疑。阿超摆摆手，说之后他一直和金善勇在一起——'},
       {type:'mixed',segments:[
         {type:'text',text:'在从西郊回镇上之后，'},
@@ -1557,7 +1657,7 @@ days:{
       {type:'text',text:'铭铭，你说，秋叶哥是不是独自见了其他什么人，又被那个人害死？'}
     ]},
     // ===== 第七篇：诅咒 =====
-    {title:'诅咒',views:31,comments:5,clueIds:[],content:[
+    {title:'诅咒',views:31,comments:0,clueIds:[],content:[
       {type:'text',text:'我不确定阿超说的是不是真的。也许秋叶哥那天真的去了别的地方，见了什么人，然后被残忍地杀害了。'},
       {type:'text',text:'但我很难想象出这样一个人：他极其可信，可信到秋叶哥愿意单独和他见面，谁也没告诉；他又极其残忍，残忍到将铁棍贯穿秋叶哥的胸腔，眼睁睁看着秋叶哥一点点挪回镇上试图求救，失血而亡。'},
       {type:'text',text:'还是社会青年械斗更容易想象一点，金银镇的人都和我一样缺乏想象力，因而"铁匠街少年杀人事件"才会如此迅速地传播开来。我在论坛上看到很多乐此不疲的讨论，仿佛秋叶哥的死只是一个刺激性的事件，而他优异的成绩、沿着铁匠街留下的血迹都只是让这个故事更多些奇幻的色彩。'},
@@ -1566,7 +1666,142 @@ days:{
       {type:'text',text:'妈妈好像又在大声对金念吼着什么，隔了一会儿又传来她的抽泣声。爷爷剧烈的咳嗽夹杂在其中，像是要把肺叶都咳出来。铁匠街的铁铺都已经消失了，铁匠街的人仍要生活着，这咳嗽声便是铁的印记，刻在了无数铁匠街老人的肺部，折磨着他们的晚年。铁匠街的召唤到底是什么，在今夜，我第一次感受到铁匠街留给我们的并非坚韧的品格，而是无尽的诅咒。'}
     ]}
     ]},
-  2:{date:'6月7日',diary:{title:'待更新',views:0,comments:0,content:[{type:'text',text:'[ 等待用户提供 Day 2 日记内容 ]'}]}},
+  2:{date:'6月7日',diaries:[
+    // ===== 第二篇：小叶其一 =====
+    {title:'小叶其一',views:42,comments:0,clueIds:['d2-zhangye-harassed'],content:[
+      {type:'text',text:'找到小叶并不难。'},
+      {type:'text',text:'秋叶哥虽然没有详细地解释，但通过他的交际圈，我能猜到应当指的是张叶玲，也是金善勇口中所谓秋叶哥的前女友。我和她不算相识，她家住在铁匠街的另一头，和我们相隔比较远，她家里管得也比较严格，我很少见她和秋叶哥一起出来，只在秋叶哥口中听说过。'},
+      {type:'text',text:'因而我喊了阿超一起去找她，他们曾是同班同学，至少更熟悉一点。'},
+      {type:'text',text:'小叶家是开铺子的，门前还摆着家里刚收完的水果。往内看去，密密麻麻的货架后有个便门，上面贴着几张有好多个男人的海报。我和阿超艰难地穿过一个个竹筐，冲着店里喊我们来找张叶玲。'},
+      {type:'text',text:'没想到，她妈妈看到阿超便抄起了笤帚："真是造孽，你们还敢来找她！你们这群人都把小叶害成什么样子了！快滚！"'},
+      {type:'mixed',segments:[
+        {type:'text',text:'阿超连连解释，说这次不是因为金善勇，但显然她妈妈并不想听我们讲话，以极强的气势向我们冲过来。'},
+        {type:'clue',clueId:'d2-zhangye-harassed',text:'大概金善勇追求小叶的时候没少来这边蹲守，给她家造成了不少困扰。'}
+      ]},
+      {type:'text',text:'正当我和阿超在攻势下连连败退时，小叶的声音从那扇极具个性的门后面传来："谁呀？"'}
+    ]},
+    // ===== 第二篇：小叶其二 =====
+    {title:'小叶其二',views:38,comments:0,clueIds:['d2-zhangye-not-seen'],content:[
+      {type:'text',text:'她声音脆生生的，一手将耳机从耳朵上拽下来，另一只手还端着小镜子，大概正在化妆。耳机线在胸前打了结，另一头连着MP3，被从口袋里拽出来，摇摇欲坠。'},
+      {type:'text',text:'她一露出头来，她妈妈立马转了攻势，笤帚冲着她："天天打扮这个鬼样子，又去找谁去？就天天叫那些乱七八糟的人在家门口晃悠……"'},
+      {type:'text',text:'小叶的动作比我们灵活多了，冲出来一把拽住我往前跑，无视她妈妈背后的斥责。那团打了结的耳机线不小心拽下来，MP3落在地上，我帮她捡起来，强烈的鼓点好像在我的手心发烫。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'我们一直跑，跑到看不到'},
+        {type:'search',text:'新叶杂货铺',keyword:'新叶杂货铺'},
+        {type:'text',text:'。六月的阳光滚烫，我出了一层汗，阿超也跟在后面气喘吁吁，只有小叶歪头看着我："你是因为赵秋叶来找我的吗？"'}
+      ]},
+      {type:'text',text:'我愣了一下，诚实地讲，"是，想问问你是不是前天也见过秋叶哥。"'},
+      {type:'text',text:'"什么？"小叶有点疑惑。'},
+      {type:'text',text:'"秋叶哥的日志里写，他原本是要来找你的。"'},
+      {type:'mixed',segments:[
+        {type:'text',text:'"真荒唐。"小叶撇撇嘴，"'},
+        {type:'clue',clueId:'d2-zhangye-not-seen',text:'我都多少年没有见他了，他不是考上省中了吗？我之后就没见过他了。原来你们就是来质问我的啊。"'},
+        {type:'text',text:'她眼角亮晶晶的，不太像是眼影的亮片，但随即被她抹了一下："一个个的净会给人扣帽子。还有你——"'}
+      ]},
+      {type:'text',text:'她转向阿超，"你们再骚扰我，我真的会报警的。"'}
+    ]},
+    // ===== 第三篇：传说 =====
+    {title:'传说',views:45,comments:0,clueIds:['d2-knife-price','d2-qiuye-shendrug','d2-achao-mom-drug'],content:[
+      {type:'text',text:'在小叶几乎身上一无所获，我和阿超都有点灰心。可能原本她也在为秋叶哥的死惋惜，但因为一开始的问题，她反而不想和我们再说什么。我只好软磨硬泡加了她的QQ，说如果真的想谈的时候再和我说。'},
+      {type:'text',text:'阿超试图向我解释金善勇对她也没有很糟糕，他还跑腿帮忙买过那个名字是几个字母的组合的海报。'},
+      {type:'text',text:'你是指的学校门口卖的那种盗版海报吗？我反驳他，这点东西就能换你们持续打扰人家生活啦？真是不讲理。阿超自知理亏，干笑了两声。'},
+      {type:'text',text:'我们沿着铁匠街从西往东回家，挑着阴影走，躲避火辣辣的阳光。阿超转移话题，提起昨天刷到了很多关于铁匠街的奇闻轶事：传说打铁的杀气重，普通人都承受不住这种业力，以前铁匠铺还在开的时候好像出过更严重的事，都被压下来了……'},
+      {type:'text',text:'我对这种封建迷信嗤之以鼻，但阿超越讲越起劲：听说之前西郊大火的时候，人们几天几夜都能够听到铁器淬火声和人的尖叫声，据说这才消解了一些铁匠街的杀气，但为了避祸，好多铁匠铺子都关了。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'"你傻啊，"我简直听不下去这种蠢话，'},
+        {type:'clue',clueId:'d2-knife-price',text:'"城里进货的铁刀15块一把，还是304不锈钢的，又便宜又好用，'},
+        {type:'text',text:'铁匠街不关门才怪呢。而且大家现在做点小生意不挺好的吗，不像咱们爷爷奶奶那时候，打铁还净落了一身毛病。"'}
+      ]},
+      {type:'text',text:'阿超挠挠头，被我怼得无话可说。我们无言地走了一会儿，他突然又说，对了，人们在传，秋叶哥的死是因为他本来就不会出生。'},
+      {type:'text',text:'我想冲着他的脸来一拳。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'阿超看出了我的不认同，连忙解释："我昨天听我妈说，'},
+        {type:'clue',clueId:'d2-qiuye-shendrug',text:'秋叶哥是他妈喝了好久的药才怀上的。秋叶哥是硬生生从上天强求来的小孩，命本来就弱，又生在了铁匠街这种邪气的地方，如今到了年纪，就要被上天收走了。'},
+        {type:'text',text:'"'}
+      ]},
+      {type:'text',text:'纯瞎话。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'我很生阿超的气，我不想听他这么讲秋叶哥，我原本以为他和我是同一战线的，可他也开始讲这些故弄玄虚的话。我不理他，闷头往前走，阿超在后面扒拉我，还在讲，'},
+        {type:'clue',clueId:'d2-achao-mom-drug',text:'他妈昨天担忧地说当初为了怀个男孩，也是从张婆婆那里买的神药，他妈特别担心他也会出事，还让他不要和我出来……'}
+      ]},
+      {type:'text',text:'"你不如现在就去死。"我太生气了，顾不上自己讲的什么话。阿超脸色一下子沉了，脚步停下来，我自觉说的话太重，急忙想找些话找补，但阿超示意让我看前面。'},
+      {type:'text',text:'——不知不觉我们已走到派出所门口，刚好看到金善勇被他爸妈接出来。'}
+    ]},
+    // ===== 第四篇：金善勇 =====
+    {title:'金善勇',views:36,comments:0,clueIds:[],content:[
+      {type:'text',text:'我简直不敢认这是金善勇。他看起来憔悴得很，衣服披在肩上，连身形看起来都矮小了，全然没有了任何精神气。'},
+      {type:'text',text:'我们隔得有点远，但大依然能听到金善勇的爸爸在责骂他。'},
+      {type:'text',text:'"不好好上学，跟人打什么架！现在好了，人死了，都说是你！老金家的脸都被你丢尽了！"'},
+      {type:'text',text:'金善勇一声不吭，低着头往他爸的面包车那边走。他好像看到了我们，目光在我们这边停留了一下，然后转开了。他的眼神我很熟悉，我在烟酒行门前转来转去的人身上都见过，并非愤怒，并非委屈，只是空空荡荡的。'},
+      {type:'text',text:'"他也不容易，"阿超在我旁边小声说，"他爸妈都在县城打工，一年回来不了几次。我好像是第一次看到他爸妈本人。"'},
+      {type:'text',text:'阿超的表情好像在替金善勇难过，又有点像在替自己难过。'},
+      {type:'text',text:'"我们这种人怎么可能有杀人的力气。"阿超喃喃道。'},
+      {type:'text',text:'他是没杀人，我说，这显而易见，他被放出来了。'},
+      {type:'text',text:'虽然被放出来并不是故事的结束。我不知道他被放出来之后该怎么生活，少年杀人犯的帽子会死死扣在他头上。就算警察说他没杀人，镇上的人不会这么想。他们只需要一个符合想象的凶手，至于真相，也许对他们来说不重要。'},
+      {type:'text',text:'我并不同情他、不怜悯他，他当然是咎由自取。我只是忽然想到了刘言。'}
+    ]},
+    // ===== 第五篇：刘言 =====
+    {title:'刘言',views:40,comments:0,clueIds:['d2-liuyan-idle','d2-liuyan-broke'],content:[
+      {type:'mixed',segments:[
+        {type:'text',text:'刘言比我们大六七岁，小时候在铁匠街算是个小孩子王，爱指挥我们干这干那。他家开了个电子行，他老偷那些拆了的机子分给大家玩，所以也算有点地位。青春期更是怂恿着镇上的孩子要组成'},
+        {type:'search',text:'新城帮',keyword:'新城帮'},
+        {type:'text',text:'，实际上就是称兄道弟那些事，搞得格外有集体荣誉感，刘言也成了实打实的新城帮大哥。'}
+      ]},
+      {type:'text',text:'变故是他高中的时候，新城帮因为些鸡毛蒜皮的事和镇中的小帮派动了手，两边加起来二十来号人，原本只是象征性地比划比划，但混乱中有人急了眼，动了刀子。'},
+      {type:'text',text:'当时谁都没想到有人敢这么做。刘言被人从背后捅了一刀，血流了一地，小帮派的人都被吓坏了，各逃各的，和刘言最要好的送他到了医院，捡回了一条命。'},
+      {type:'text',text:'捅人的也是未成年，在拘留所待了几天，后来全家搬离了金银镇，再也没人见过他。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'刘言出院之后，从前新城帮的开始躲着他。一个被人捅过的老大，自然罩不住任何人，就算表面上客气，心里的看法也变了。'},
+        {type:'clue',clueId:'d2-liuyan-idle',text:'刘言在这件事里受了大刺激，书也不念了，浑浑噩噩地在镇上混日子，给人跑腿、帮人讨债，天天在宇宙网吧泡着。'},
+        {type:'text',text:'我想起来他有一阵QQ空间都换成了女生的样子，听说在网上假装小女孩骗人钱。'}
+      ]},
+      {type:'mixed',segments:[
+        {type:'text',text:'"他最近好像手头特别紧。"提到刘言，阿超压低了声音，"'},
+        {type:'clue',clueId:'d2-liuyan-broke',text:'前阵子到处找人借钱，连宇哥那边都欠着。但不知道宇哥最近想了什么由头，又找他帮忙做事了。听人说老往西郊那边跑。"'}
+      ]},
+      {type:'text',text:'我想起阿超昨天说的话：在网吧里，赵凌宇跟金善勇提过一个大生意。'},
+      {type:'text',text:'什么大生意呢？要往西郊跑的大生意吗？'},
+      {type:'text',text:'话题到此便终止了。我们已走到铁匠街东口，阿超在烟酒行门口和我告别。他离开的背影消失在铁匠街旁的小巷中，我在街上呆立了一会儿，暑气与烈日让整个铁匠街像在摇晃。'}
+    ]},
+    // ===== 第六篇：坠落 =====
+    {title:'坠落',views:48,comments:0,clueIds:['d2-fall-death','d2-iron-illogical','d2-body-dragged'],content:[
+      {type:'text',text:'我回到家的时候，电视正开着，大概是妈妈出门的时候忘记关了。'},
+      {type:'mixed',segments:[
+        {type:'text',text:'屏幕上在播本地新闻，播放着警方初步调查结果：'},
+        {type:'clue',clueId:'d2-fall-death',text:'秋叶哥的内脏有大面积出血，致命伤符合高处坠落特征。铁棍的贯穿伤是自上而下刺入胸腔的，与水平方向的刺伤完全不同。'}
+      ]},
+      {type:'text',text:'警方由此排除了械斗致死的可能性，也排除了金善勇的作案嫌疑。当晚那个时间段，宇宙网吧的监控清楚拍到了他，从进门到凌晨都没有离开过。'},
+      {type:'text',text:'但这反而让事情显得更加蹊跷。'},
+      {type:'mixed',segments:[
+        {type:'clue',clueId:'d2-iron-illogical',text:'如果秋叶哥真的是从高处坠落、落在那根铁棍上，被它贯穿，那根铁棍是竖在地上的吗？'},
+        {type:'text',text:'如果是建筑废墟里的钢筋，它应该是横七竖八的，怎么偏偏有一根竖着，刚好贯穿了一个坠落的人？'}
+      ]},
+      {type:'mixed',segments:[
+        {type:'text',text:'阿超曾说他看到秋叶哥独自往西郊更深处走去，如果秋叶哥是在西郊废墟坠落的，'},
+        {type:'clue',clueId:'d2-body-dragged',text:'他是怎么到铁铺门前的？一个人受了那样重的伤，不可能自己走那么远，更不可能爬那么远。'}
+      ]},
+      {type:'text',text:'或许是有人设置了重重机关，才让秋叶哥以如此离奇的方式死去。张叶玲说她没见过秋叶哥，她的反应并不像假的，要么当天秋叶哥见过的并不是她，要么她是个技术精湛的骗子。'},
+      {type:'text',text:'我宁愿相信是前者，但我努力搜寻，却怎么也找不到其他和"小叶"相关的证据。秋叶哥或许见了一个极会说谎的女高中生，又或许见了一个似乎并不存在的人，此后以离奇的方式坠落。而此人拖着秋叶哥被贯穿的身体，在大家熟睡的夜晚，缓步穿过铁匠街，不在乎血迹在铁匠街上如何蔓延，最终将他抛在张氏铁铺门口。'},
+      {type:'text',text:'铁匠街的最后一家铁铺，铁匠街的最中心。'},
+      {type:'text',text:'这是凶手精心选择的地点吗？为什么是张氏铁铺呢？'},
+      {type:'text',text:'我脑海中闪过一丝奇怪的念头，想要出门查证，一推门刚好碰到妈妈带着金念回家。她身上有浓烈的烟味，即便是从小闻到大，我依然都没习惯。'},
+      {type:'text',text:'"你干嘛去，"她说，"最近几天阴得很，别往外跑了。"'},
+      {type:'text',text:'"那是封建迷信。"我反驳她，想趁机转出门去，被她从身后拽住衣领。'},
+      {type:'text',text:'"老老实实在家待着，天都快黑了。你是不知道，我刚才带着金念去老赵家了，唉，那个可怜人啊，年纪那么大才有的孩子，真是让老天收走了……"'},
+      {type:'text',text:'她一边说着，一边去给金念泡药。金念安静地待在旁边，一言不发。'},
+      {type:'text',text:'我已经习惯这一幕了。金念从小到大都没有说过话。'}
+    ]},
+    // ===== 第七篇：秘密 =====
+    {title:'秘密',views:44,comments:9,clueIds:['d2-tiepu-no-business'],content:[
+      {type:'text',text:'今晚大概是出不去了，我只能在房间里打下这些字。人被困在房间中，我的思绪也同样纷乱复杂，找不到出口。'},
+      {type:'text',text:'我无法想象一向善良温和的秋叶哥会招惹什么人，或许也正因此，大家才会以被上天收走作为解释，让秋叶哥的死听起来合理。但这说服不了我。就像我也不相信所谓的西郊闹鬼传说，不相信所谓因避祸而逐渐衰落的铁匠街。'},
+      {type:'text',text:'我看到的是技术的冲击带走了铁铺，只留下了老人们的咳嗽声，在夜色里像铁器的哀鸣；我没有看到秋叶哥的尸体，铁匠街上只留下了那些清理不干净的血痕和人们的杂谈，所以我才会拼命想记录下经历的每一个细节，不想让他在我的脑海中消失。'},
+      {type:'mixed',segments:[
+        {type:'clue',clueId:'d2-tiepu-no-business',text:'张氏铁铺还矗立在铁匠街中心。在这个大家几乎不需要打造铁器的年代，张氏铁铺却立在这里，哪怕几乎见不到顾客，却还是生存着，成为了上世纪铁匠街工艺最后的缩影。'}
+      ]},
+      {type:'text',text:'我脑海中出现了躺在张氏铁铺前的秋叶哥.他孤零零地躺在漆黑的夜，孤独地躺进了从上世纪末贯穿到如今的，属于铁匠街的秘密。'}
+    ]}
+    ]},
   3:{date:'6月8日',diary:{title:'待更新',views:0,comments:0,content:[{type:'text',text:'[ 等待用户提供 Day 3 日记内容 ]'}]}},
   4:{date:'6月9日',diary:{title:'待更新',views:0,comments:0,content:[{type:'text',text:'[ 等待用户提供 Day 4 日记内容 ]'}]}}
 },
@@ -1576,22 +1811,26 @@ search:{
   '铁匠街少年杀人事件':{title:'《出大事了！铁匠街死人了！！》 — 金银镇本地论坛',url:'www.jinyintown-bbs.cn/thread/8801',snippet:'1楼：高中生横死铁匠街，死因系铁棍贯穿胸口，听说是和银桥帮起冲突了。场面太吓人了……2楼：铁匠街真邪乎，听说了好多铁匠街的灵异事件。3楼：前几年不是还有一场械斗，也是差点死了人……"。',dayAvailable:1,unlocks:[],clueId:null},
   '老赵书店':{title:'专业教辅、二手书买卖，就找老赵书店',url:'zhao19600516@mail.com',snippet:'老赵书店位于铁匠街东段，铭念烟酒行隔壁。主营中小学教辅资料及二手书回收转卖。联系方式：zhao19600516@mail.com。',dayAvailable:1,unlocks:[],clueId:'d1-zhao-contact'},
   '实验中学':{title:'实验中学官方网站 — 省城重点高中',url:'www.shiyan-highschool.edu.cn',snippet:'省城实验中学，升学率常年位居全省前三，每年为清北大学等高校输送近千名学子……',dayAvailable:1,unlocks:[],clueId:null},
-  '银桥帮':{title:'《银桥帮势力范围详解》 — 银桥职高贴吧',url:'tieba.baidu.com/p/34159287',snippet:'帖子列出银桥帮主要成员外号，包括"勇哥"（金善勇）、"阿龙""小胖"，提到"宇哥"（赵凌宇）是宇宙网吧老板，和银桥帮关系密切。帖子底部有人评论：别赴了"新城帮"后尘，就和刘言那伙人似的。',dayAvailable:1,unlocks:['宇宙网吧'],clueId:null},
-  '张氏铁铺':{title:'张氏铁铺 — 本地生活服务页面',url:'www.jinyintown-life.cn/shop/zhang',snippet:'地址：铁匠街西段。营业范围：铁器加工、农具修理。用户评价为0。定价范围：特制菜刀5000元一把，厨具10000元一套，农具20000元一套。有意者咨询张翠梅。',dayAvailable:1,unlocks:['张翠梅'],clueId:null},
+  '银桥帮':{title:'《银桥帮势力范围详解》 — 银桥职高贴吧',url:'tieba.baidu.com/p/34159287',snippet:'帖子列出银桥帮主要成员外号，包括"勇哥"（金善勇）、"阿龙""小胖"，提到"宇哥"（赵凌宇）是宇宙网吧老板，和银桥帮关系密切。帖子底部有人评论：别赴了"新城帮"后尘，就和刘言那伙人似的。',dayAvailable:1,unlocks:['宇宙网吧'],clueId:null,onSearch:'groupChatEntry'},
+  '张氏铁铺':{title:'张氏铁铺 — 本地生活服务页面',url:'www.jinyintown-life.cn/shop/zhang',snippet:'地址：铁匠街西段。营业范围：铁器加工、农具修理。用户评价为0。定价范围：特制菜刀5000元一把，厨具10000元一套，农具20000元一套。有意者咨询张翠梅。',dayAvailable:1,unlocks:['张翠梅'],clueId:'d1-zhang-contact'},
   '金银镇 火灾':{title:'《铁匠街西郊一厂房发生火灾，无人伤亡》 — 金银镇本地新闻网（1998年旧闻）',url:'www.jinyintown-news.cn/1998/0615',snippet:'起火地点为"望秋铁业厂房"，起火原因"疑为机器老化"。另有一条无法打开的链接，标题为：《望秋铁业的前世今生——》，点击显示"404"。',dayAvailable:1,unlocks:['望秋铁业'],clueId:null},
   '银桥职业高中':{title:'银桥职业高中 — 学校官网',url:'www.yinqiao-vocational.edu.cn',snippet:'学校介绍专业设置，办学特色"技术立校，就业为先"。但贴吧中有大量讨论打架、收保护费的帖子，校风评价两极分化。',dayAvailable:1,unlocks:[],clueId:null},
   '铭念烟酒行':{title:'铭念烟酒行 · 铁匠街东段24小时便利店',url:'dianping.com/shop/mingnian',snippet:'铭念烟酒行位于铁匠街东段，老赵书店隔壁。店主姓金，24小时营业。联系方式：jin19750422@mail.com',dayAvailable:1,unlocks:[],clueId:'d1-jin-contact'},
   '铁匠街':{title:'金银镇铁匠街 — 百度百科',url:'baike.baidu.com/item/铁匠街',snippet:'铁匠街位于金银镇中心区域，因历史上聚集大量铁匠铺而得名。鼎盛时期曾有铁铺三十余家。如今仅剩张氏铁铺一家仍在营业。',dayAvailable:1,unlocks:[],clueId:null},
   '金银镇':{title:'金银镇概况',url:'www.jinyintown-gov.cn/about',snippet:'金银镇，位于省城以东约90公里。历史上以铁器加工和金银饰品加工闻名，故得名"金银镇"。近年来因交通不便、产业衰退，年轻人多外出务工。特色产业：无。未来规划：尚未公布。',dayAvailable:1,unlocks:[],clueId:null},
-  '宇宙网吧':{title:'[占位] 宇宙网吧',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
-  '张翠梅':{title:'[占位] 张翠梅',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null,onSearch:'zhangcuimeiRequest'},
-  '望秋铁业':{title:'[占位] 望秋铁业',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
-  '金银镇 废墟':{title:'[占位] 金银镇废墟',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
-  '金银镇 命案':{title:'[占位] 金银镇命案',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
-  '新叶报刊亭':{title:'[占位] 新叶报刊亭',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
-  '金银镇初中':{title:'[占位] 金银镇初中',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
-  '金银镇 械斗':{title:'[占位] 金银镇械斗',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
-  '金银镇 西郊河':{title:'[占位] 金银镇西郊河',url:'#',snippet:'[等待用户提供内容 — Day2]',dayAvailable:2,unlocks:[],clueId:null},
+  '男子组合':{title:'搜猫音乐 — 流行音乐日榜',url:'somao.baidu.com',snippet:'韩国男子组合EXO、BIGBANG及中国男子组合TFBOYS是当前最受青少年欢迎的偶像团体。EXO迷你二辑《上瘾》与TFBOYS新作《青春修炼手册》已独家上线搜猫音乐潮流榜。',dayAvailable:2,unlocks:[],clueId:null},
+  '新叶杂货铺':{title:'新叶杂货铺 — 金银镇本地信息网',url:'www.jinyintown-life.cn/shop/xinye',snippet:'新叶杂货铺，铁匠街西段，主营水果与日杂。近期店铺评价中有附近居民投诉"常有不三不四的小年轻在门口晃悠，影响周边居民正常生活"。',dayAvailable:2,unlocks:[],clueId:null},
+  '张氏铁铺 神药':{title:'《急！我妈非要买神婆的药怎么办》 — 金银镇论坛',url:'www.jinyintown-bbs.cn/thread/9823',snippet:'1楼：我妈非要去一个没听说过的镇子上买药，拦都拦不住，说是网友推荐的，特别神，咋办啊。2楼：我家老人也信，真头大啊。听说是个打铁的干的生意，取药还得去镇子的荒郊野岭去取，听听都瘆人。3楼：十几年前有几家求子得子的事传开了，从那以后就管不住了。4楼：那个铁铺从来不打铁，供着佛像，保持敬畏之心吧，你去一次就知道了。',dayAvailable:2,unlocks:[],clueId:null},
+  '金银镇 废墟':{title:'《西郊那片废墟有人管吗》 — 金银镇本地论坛',url:'www.jinyintown-bbs.cn/thread/7561',snippet:'1楼：有人能管管西郊废弃厂房那边吗，老听到半夜有人进进出出的声音，仔细一看又看不见人人影，晚上路过都被吓个半死。实在不行给拆了呢，平时路过都觉得阴飕飕的。2楼：自从火灾之后就废弃了吧，除了老疯子会在那边晃悠，正常人谁往那边走啊。3楼：那地方真邪，之前不是说政府要出面改造吗，说要建啥现代工厂，让大家都有钱赚。建筑材料都拉来了，结果不知道为啥没成，又荒在那了，光拉了几条围栏，也没人管。4楼：我家就住铁匠街西边，其实一直都有人大半夜在那边不知道干啥，窸窸窣窣的。不过最近动静格外大，好像有人在拆东西。',dayAvailable:2,unlocks:[],clueId:null},
+  '铁匠街 命案':{title:'《铁匠街命案最新进展：死者死因存疑》 — 金银镇本地新闻网',url:'www.jinyintown-news.cn/2014/0607',snippet:'警方通报，死者赵秋叶内脏大面积出血，符合高处坠落特征，铁棍贯穿伤为自上而下。金善勇因网吧监控证实不在现场已被释放。该案件虽情形恶劣，但不涉及非自然现象，请市民朋友保持理性，不信谣不传谣。',dayAvailable:2,unlocks:[],clueId:null},
+  '张翠梅':{title:'张氏铁铺 — 本地生活服务页面',url:'www.jinyintown-life.cn/shop/zhang',snippet:'张氏铁铺铺主，地址铁匠街西段。广结善缘，随喜功德，详情请私信联系。',dayAvailable:2,unlocks:[],clueId:null,onSearch:'zhangcuimeiRequest'},
+  '新城帮 械斗':{title:'《铁匠街真邪乎啊》 — 金银镇论坛',url:'www.jinyintown-bbs.cn/thread/6621',snippet:'1楼：又死人了。。。谁还记得几年前另一个小帮派被捅的事，当时也是血流了满街，我那时候还上学呢，给我吓坏了。2楼：是叫什么新城帮的吧，老大让人捅了，捅人的也在镇子上待不下去了了，现在听说也没干啥正经营生，在网上干些偷鸡摸狗的事。3楼：现在孩子真是越来越大胆了！我以后有了孩子肯定不让他在金银镇上学了，接触的都是什么人，太可怕了！',dayAvailable:2,unlocks:[],clueId:null},
+  '新城帮':{title:'《新城帮还有人吗》 — 银桥职高贴吧',url:'tieba.baidu.com/p/35210983',snippet:'1楼：之前好像挺风光的，现在好像完全听不到新城帮相关的事了。2楼：谁还没有过年少轻狂！械斗之后大家就都散了，感觉银桥帮最后也是这个下场。3楼：2楼你谁啊，敢说银桥帮不行，别让我逮着你……',dayAvailable:2,unlocks:[],clueId:null},
+  '望秋铁业':{title:'404 Not Found',url:'www.jinyintown-archives.cn/wangqiutieye',snippet:'该页面不存在或已被删除。网页摘要仅显示半句："望秋铁业，1979年由本镇青年陈望秋创办，系金银镇首个机械化铁器加工企……"全文需持身份证至镇档案室查阅。',dayAvailable:2,unlocks:[],clueId:null},
+  '陈望秋':{title:'《老一辈还有人记得陈望秋吗》 — 金银镇论坛（已归档）',url:'www.jinyintown-bbs.cn/thread/1024',snippet:'1楼：听爷爷说起过这个名字，是金银镇第一个考上省城大学的人，毕业后回来办了铁器厂。怎么后来没听到消息了。管理员回复：该贴不符合论坛规范，已被禁止回复，已归档。',dayAvailable:2,unlocks:[],clueId:null},
+  '宇宙网吧':{title:'宇宙网吧 — 金银镇本地信息网',url:'www.jinyintown-life.cn/shop/yuzhou',snippet:'宇宙网吧位于铁匠街中段，24小时营业。网吧内有二手电脑三十余台，也提供充值、游戏点卡等服务。合作洽谈请联系赵凌宇，电话：1238888888',dayAvailable:1,unlocks:['赵凌宇'],clueId:null},
+  '金银镇初中':{title:'金银镇初级中学 — 学校官网',url:'www.jinyintown-edu.cn/junior',snippet:'金银镇初级中学是金银镇唯一的初中，位于铁匠街东段附近。学校设有初一至初三共三个年级，在校学生约1200人。近年来升学率稳步提升，近50%的学生能够进入高中就读，部分优秀学生考入省城重点高中，如2013级考生赵秋叶……',dayAvailable:1,unlocks:[],clueId:null},
+  '87836235':{title:'',url:'',snippet:'',dayAvailable:2,unlocks:[],clueId:null,onSearch:'gongdeGroupChat'},
   '交易网站':{title:'[占位] 交易网站',url:'#',snippet:'[等待用户提供内容 — Day3]',dayAvailable:3,unlocks:[],clueId:null},
   '金银镇发展':{title:'[占位] 金银镇发展',url:'#',snippet:'[等待用户提供内容 — Day3]',dayAvailable:3,unlocks:[],clueId:null},
   '治病救人':{title:'[占位] 治病救人',url:'#',snippet:'[等待用户提供内容 — Day4]',dayAvailable:4,unlocks:[],clueId:null},
@@ -1614,18 +1853,30 @@ clues:{
   'd1-jin-lingyu-deal':'金善勇和赵凌宇似乎在进行一些不可告人的生意。',
   'd1-liuyan-west':'刘言曾独自前往西郊。',
   'd1-zhao-contact':'赵秋叶父亲的联系方式：zhao19600516@mail.com。老赵书店的经营者。',
-  'd1-jin-contact':'金铭父亲的联系方式：jin19750422@mail.com。铭念烟酒行的经营者。'
+  'd1-jin-contact':'金铭父亲的联系方式：jin19750422@mail.com。铭念烟酒行的经营者。',
+  'd1-zhang-contact':'张氏铁铺的联系人为张翠梅。',
+  'd2-zhangye-harassed':'张叶玲拒绝过金善勇，并长期受他的骚扰。',
+  'd2-zhangye-not-seen':'张叶玲称，自从初中毕业之后就没有见过赵秋叶。',
+  'd2-knife-price':'正常菜刀的定价为15元/把，相比之下铁匠街张氏铁铺的定价惊人。',
+  'd2-qiuye-shendrug':'大家传闻说赵秋叶是喝神药才怀上的小孩。',
+  'd2-achao-mom-drug':'刘志超提到自己的妈妈也喝过张婆婆的神药。',
+  'd2-liuyan-idle':'刘言现在是社会闲散青年。',
+  'd2-liuyan-broke':'刘言很缺钱，最近在帮赵凌宇做生意。',
+  'd2-fall-death':'秋叶哥死亡之前曾从高处坠落，或许是致死原因。',
+  'd2-iron-illogical':'铁棍进入秋叶哥身体的方式不符合坠落的逻辑。',
+  'd2-body-dragged':'尸体曾被拖动过，铁铺门前并非第一案发现场。',
+  'd2-tiepu-no-business':'张氏铁铺的生意并不好，似乎看不出他们的经济来源。'
 },
 
 // ---- SPECIAL MECHANISMS ----
 groupChatEntry:{question:'银桥帮大哥大嫂是谁？（提示：男名+女名+99）',answers:['金善勇张叶玲99','金善勇 张叶玲 99']},
-friendRequests:{zhangcuimei:{dayAvailable:2,question:'铁匠街最后一家铁铺叫什么名字？',answers:['张氏铁铺','张氏铁铺是最后一家']}},
-spacePasswords:{zhaoqiuye:{question:'我的生日是？（提示：8位数字）',answer:'19980822'}},
+friendRequests:{zhangcuimei:{dayAvailable:2,question:'您需要订购张氏铁铺的什么？',answers:['神药','药']}},
+spacePasswords:{zhaoqiuye:{question:'我的生日是？（提示：8位数字）',answer:'19980822'},zhangye:{question:'我最喜欢的组合是？',answer:'EXO'}},
 
 // ---- PUZZLES (4 days) ----
 puzzles:{
   1:{question:'在银桥帮会面后，赵秋叶实际要见的是？',hint:'提示：仔细阅读赵秋叶的QQ空间日志，看看他反复提到的那个名字。秋叶哥在回金银镇之前，说过要去找谁？',answers:['小叶','是小叶','找小叶'],successMsg:'正确！赵秋叶离开银桥帮后，实际要去见的是小叶。'},
-  2:{question:'[占位 — 等待用户提供 Day 2 谜题]',hint:'提示：等待用户提供',answers:['占位'],successMsg:'[等待用户提供 successMsg — Day2]'},
+  2:{question:'张氏铁铺的收入来源是？',hint:'提示：看看张翠梅的空间和张氏铁铺·有缘人功德群的聊天记录。',answers:['卖药','神药','张婆婆','婆婆'],successMsg:'正确！张氏铁铺表面上打铁，实际上靠卖"神药"为生。张翠梅以铁铺为掩护，暗中兜售所谓的神药。'},
   3:{question:'[占位 — 等待用户提供 Day 3 谜题]',hint:'提示：等待用户提供',answers:['占位'],successMsg:'[等待用户提供 successMsg — Day3]'},
   4:[
     {question:'[占位 — 等待用户提供 Day 4 谜题一]',hint:'提示：等待用户提供',answers:['占位'],successMsg:'[等待用户提供 successMsg — Day4 Puzzle 1]'},
@@ -1641,7 +1892,7 @@ truth:{title:'真相',content:'<p>[ 占位内容 — 等待用户提供真相页
 // ═════════════════════ END OF GAME_DATA ═════════════════════
 
 // ==================== GAME STATE ====================
-var DEFAULT_STATE={day:1,clues:[],visitedSpaces:[],searchHistory:[],searchUnlocked:[],puzzleSolved:[false,false,false,false],puzzleAttempts:[0,0,0,0],day4puzzle1Solved:false,day4puzzle2Solved:false,groupChatUnlocked:false,friendRequestsApproved:[],zhaoqiuyeUnlocked:false,ending:false,day1SubDiary:0,day1SubCluesCollected:[]};
+var DEFAULT_STATE={day:1,clues:[],visitedSpaces:[],searchHistory:[],searchUnlocked:[],searchedKeywords:[],puzzleSolved:[false,false,false,false],puzzleAttempts:[0,0,0,0],day4puzzle1Solved:false,day4puzzle2Solved:false,groupChatUnlocked:false,friendRequestsApproved:[],zhaoqiuyeUnlocked:false,zhangyeUnlocked:false,gongdeGroupChatUnlocked:false,ending:false,day1SubDiary:0,day1SubCluesCollected:[],notebook:''};
 var gameState=loadGameState();
 
 function loadGameState(){
@@ -1769,7 +2020,7 @@ function renderParagraph(p){
 // Sub-diary navigation
 function prevSubDiary(){if(gameState.day1SubDiary>0){gameState.day1SubDiary--;saveGameState();renderMainContent();window.scrollTo({top:0,behavior:'smooth'})}}
 function nextSubDiary(){
-  var dd=GAME_DATA.days[1];if(!dd||!dd.diaries)return;
+  var dd=GAME_DATA.days[gameState.day];if(!dd||!dd.diaries)return;
   var subIdx=gameState.day1SubDiary||0;
   var sub=dd.diaries[subIdx];if(!sub)return;
   var subClueIds=sub.clueIds||[];
@@ -1794,7 +2045,7 @@ function buildCluePanel(){
   if(allClues.length===0)return '';
   var h='<div class="diary-card"><h3 style="font-size:13px;color:#000080;margin-bottom:8px;">[ 已发现的线索 ] ('+allClues.length+')</h3>';
   h+='<div class="clue-panel-fixed">';
-  for(var i=0;i<allClues.length;i++){
+  for(var i=allClues.length-1;i>=0;i--){
     var cd=GAME_DATA.clues[allClues[i]];
     if(cd)h+='<div class="clue-card"><div class="clue-label">[ 线索发现 ]</div><div>'+cd+'</div></div>';
   }
@@ -1872,6 +2123,9 @@ function renderFriendsList(){
     var fid=gameState.friendRequestsApproved[i];
     if(availableIds.indexOf(fid)===-1)availableIds.push(fid);
   }
+  // Group chats — only visible after unlocking via search
+  if(gameState.groupChatUnlocked&&availableIds.indexOf('xinchengbang')===-1)availableIds.push('xinchengbang');
+  if(gameState.gongdeGroupChatUnlocked&&availableIds.indexOf('gongdequn')===-1)availableIds.push('gongdequn');
   var h='';
   for(var i=0;i<availableIds.length;i++){
     var fid=availableIds[i],f=GAME_DATA.friends[fid];if(!f)continue;
@@ -1905,25 +2159,80 @@ function openFriendSpace(fid){
   if(fid==='xinchengbang'&&!gameState.groupChatUnlocked){openGroupChatEntry();return}
   if(fid==='zhangcuimei'&&gameState.friendRequestsApproved.indexOf('zhangcuimei')===-1){openFriendRequest('zhangcuimei');return}
   if(fid==='zhaoqiuye'&&!gameState.zhaoqiuyeUnlocked){openZhaoqiuyePassword();return}
+  if(fid==='zhangye'&&!gameState.zhangyeUnlocked){openZhangyePassword();return}
+  if(fid==='gongdequn'){openGongdeGroupChat();return}
   var f=GAME_DATA.friends[fid];if(!f)return;
   var day=gameState.day;
   var visitKey=fid+'-day'+day;
   if(gameState.visitedSpaces.indexOf(visitKey)===-1)gameState.visitedSpaces.push(visitKey);
   addCluesFromFriend(fid,day);
-  var h='<div class="space-header"><div class="space-avatar" style="background:'+f.avatarBg+'">'+f.avatarText+'</div>';
-  h+='<div style="font-weight:bold;font-size:15px;">'+f.name+'的空间</div>';
-  h+='<div style="font-size:12px;color:#808080;">'+f.bio+'</div>';
-  h+='<div style="font-size:11px;color:#808080;">签名：'+f.signature+'</div></div>';
-  var posts=f.posts[day]||[];
-  if(posts.length===0)h+='<p style="text-align:center;color:#808080;padding:16px;">该好友今日暂无新内容。</p>';
-  else for(var i=0;i<posts.length;i++){var p=posts[i];h+='<div class="space-post"><div class="post-time">'+p.time+'</div><div>'+p.content+'</div>'+(p.note?'<div style="font-size:11px;color:#808080;margin-top:4px;font-style:italic;">'+p.note+'</div>':'')+'</div>'}
-  document.getElementById('friend-modal-title').textContent=f.name+'的空间';
+  var h='';
+  if(fid==='xinchengbang'){
+    // Group chat — QQ chat window style
+    h+='<div class="chat-container">';
+    h+='<div class="chat-header-bar"><div class="chat-title">银桥帮的群聊</div><div class="chat-members">银桥职高の夜露死苦 · 32人在线</div></div>';
+    var posts=f.posts[day]||[];
+    if(posts.length===0)h+='<p style="text-align:center;color:#808080;padding:20px;">该群今日暂无新消息。</p>';
+    else for(var i=0;i<posts.length;i++){var p=posts[i];h+='<div class="chat-msg"><div class="chat-time">'+p.time+'</div><div>'+p.content+'</div>'+(p.note?'<div style="font-size:11px;color:#808080;margin-top:2px;">'+p.note+'</div>':'')+'</div>'}
+    if(day===1)h+='<div class="chat-system-msg">—— 以上为聊天记录截屏 ——</div>';
+    h+='</div>';
+    document.getElementById('friend-modal-title').textContent='银桥帮的群聊';
+  }else{
+    h+='<div class="space-header"><div class="space-avatar" style="background:'+f.avatarBg+'">'+f.avatarText+'</div>';
+    h+='<div style="font-weight:bold;font-size:15px;">'+f.name+'的空间</div>';
+    h+='<div style="font-size:12px;color:#808080;">'+f.bio+'</div>';
+    h+='<div style="font-size:11px;color:#808080;">签名：'+f.signature+'</div></div>';
+    var posts=[];
+    for(var d=1;d<=day;d++){
+      var dp=f.posts[d];
+      if(dp&&dp.length>0){
+        if(posts.length>0)posts.push({time:'—— 第 '+d+' 天 ——',content:'',note:'',daySep:true});
+        for(var j=0;j<dp.length;j++)posts.push(dp[j]);
+      }
+    }
+    if(posts.length===0)h+='<p style="text-align:center;color:#808080;padding:16px;">该好友暂无新内容。</p>';
+    else for(var i=0;i<posts.length;i++){var p=posts[i];h+=(p.daySep?'<div class="chat-system-msg">'+p.time+'</div>':'<div class="space-post"><div class="post-time">'+p.time+'</div><div>'+p.content+'</div>'+(p.note?'<div style="font-size:11px;color:#808080;margin-top:4px;font-style:italic;">'+p.note+'</div>':''))+'</div>'}
+    document.getElementById('friend-modal-title').textContent=f.name+'的空间';
+  }
   document.getElementById('friend-modal-body').innerHTML=h;
   openModal('modal-friend');saveGameState();renderFriendsList();renderMainContent();
 }
 function addCluesFromFriend(fid,day){
-  var m={'zhaoqiuye':{1:['d1-zhao-contact']},'jinshanyong':{1:['d1-jinshanyong-challenge']},'achao':{1:['d1-alibi','d1-liuyan-west']},'mingnian':{1:['d1-jin-contact']},'xinchengbang':{1:['d1-meeting-brief','d1-weapons-harmless','d1-qiuye-alone']}};
+  var m={'zhaoqiuye':{1:['d1-zhao-contact']},'jinshanyong':{1:['d1-jinshanyong-challenge']},'achao':{1:['d1-alibi','d1-liuyan-west']},'mingnian':{1:['d1-jin-contact']},'xinchengbang':{1:['d1-meeting-brief','d1-weapons-harmless','d1-qiuye-alone']},'liuyan':{2:['d2-liuyan-idle','d2-liuyan-broke']},'gongdequn':{2:['d2-tiepu-no-business']}};
   var clues=(m[fid]&&m[fid][day])?m[fid][day]:[];for(var i=0;i<clues.length;i++)addClue(clues[i]);
+}
+
+// ---- Group Chat Apply Dialog ----
+function showGroupChatApplyDialog(type){
+  var title,groupName,groupBio,groupSig,onApply,avatarBg,avatarText;
+  if(type==='yinqiao'){
+    title='银桥帮的群聊';groupName='银桥帮的群聊';
+    groupBio='QQ群 · 银桥职高の夜露死苦';groupSig='自己带家伙，不带的站远点';
+    avatarBg='linear-gradient(135deg,#338,#66A)';avatarText='群';
+    onApply='openGroupChatEntry()';
+  }else if(type==='gongde'){
+    title='张氏铁铺·有缘人功德群';groupName='张氏铁铺·有缘人功德群';
+    groupBio='QQ群 · 治病救人，普度众生';groupSig='广结善缘，随喜功德';
+    avatarBg='linear-gradient(135deg,#474,#696)';avatarText='德';
+    onApply='openGongdeGroupChat()';
+  }else{return;}
+  var h='<div style="text-align:center;padding:20px;">';
+  h+='<div style="font-size:16px;color:#000080;margin-bottom:6px;">\u{1F50D} 搜索到群聊</div>';
+  h+='<div style="color:#808080;margin-bottom:20px;">以下群聊与你的搜索匹配</div>';
+  h+='<div class="entry-question-box">';
+  h+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">';
+  h+='<div style="width:48px;height:48px;border-radius:50%;background:'+avatarBg+';color:#FFF;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;font-weight:bold;">'+avatarText+'</div>';
+  h+='<div style="text-align:left;"><div style="font-weight:bold;color:#000080;font-size:14px;">'+groupName+'</div>';
+  h+='<div style="font-size:12px;color:#808080;">'+groupBio+'</div>';
+  h+='<div style="font-size:11px;color:#808080;">'+groupSig+'</div></div>';
+  h+='</div>';
+  h+='<div style="display:flex;gap:10px;justify-content:center;margin-top:16px;">';
+  h+='<button class="btn-win98 primary" onclick="closeModal(\'modal-friend\');setTimeout(function(){'+onApply+'},300)" style="font-size:12px;padding:6px 24px;">申请入群</button>';
+  h+='<button class="btn-win98" onclick="closeModal(\'modal-friend\')" style="font-size:12px;padding:6px 24px;">退出</button>';
+  h+='</div></div></div>';
+  document.getElementById('friend-modal-title').textContent='搜索结果 — 群聊';
+  document.getElementById('friend-modal-body').innerHTML=h;
+  openModal('modal-friend');
 }
 
 // ---- Group Chat Entry ----
@@ -1982,6 +2291,43 @@ function submitZhaoqiuyePassword(){
   }else{fb.textContent='密码不正确，再想想看。'}
 }
 
+// ---- Zhangye Space Password ----
+function openZhangyePassword(){
+  var pw=GAME_DATA.spacePasswords.zhangye;
+  var h='<div style="text-align:center;padding:20px;"><div style="font-size:16px;color:#000080;margin-bottom:6px;">张叶的QQ空间</div><div style="color:#808080;margin-bottom:16px;">私密日志，输入密码可解锁。</div><div class="entry-question-box"><div class="eq-title">验证问题</div><div>'+pw.question+'</div><div class="eq-input-row"><input type="text" id="zhangye-pw-answer" placeholder="输入你的答案…" onkeydown="if(event.key===\'Enter\')submitZhangyePassword()"><button class="btn-win98 primary" onclick="submitZhangyePassword()">确认</button></div><div id="zhangye-pw-feedback" style="margin-top:8px;font-size:12px;color:#CC0000;"></div></div></div>';
+  document.getElementById('friend-modal-title').textContent='张叶的QQ空间';
+  document.getElementById('friend-modal-body').innerHTML=h;
+  openModal('modal-friend');
+}
+function submitZhangyePassword(){
+  var input=document.getElementById('zhangye-pw-answer'),fb=document.getElementById('zhangye-pw-feedback');
+  if(!input||!fb)return;
+  var ans=input.value.trim();if(!ans){fb.textContent='请输入答案';return}
+  if(ans.toUpperCase()===GAME_DATA.spacePasswords.zhangye.answer.toUpperCase()){
+    gameState.zhangyeUnlocked=true;saveGameState();
+    fb.style.color='#006600';fb.textContent='[ OK ] 密码正确！';
+    setTimeout(function(){closeModal('modal-friend');openFriendSpace('zhangye')},800);
+  }else{fb.textContent='密码不正确，再想想看。'}
+}
+
+// ---- Gongde Group Chat ----
+function openGongdeGroupChat(){
+  var f=GAME_DATA.friends.gongdequn;if(!f)return;
+  if(!gameState.gongdeGroupChatUnlocked){gameState.gongdeGroupChatUnlocked=true;saveGameState()}
+  var day=gameState.day;
+  addCluesFromFriend('gongdequn',day);
+  var h='<div class="chat-container">';
+  h+='<div class="chat-header-bar"><div class="chat-title">张氏铁铺·有缘人功德群</div><div class="chat-members">治病救人，普度众生 · 100人在线</div></div>';
+  var posts=f.posts[day]||[];
+  if(posts.length===0)h+='<p style="text-align:center;color:#808080;padding:20px;">该群今日暂无新消息。</p>';
+  else for(var i=0;i<posts.length;i++){var p=posts[i];h+='<div class="chat-msg"><div class="chat-time">'+p.time+'</div><div>'+p.content+'</div>'+(p.note?'<div style="font-size:11px;color:#808080;margin-top:2px;">'+p.note+'</div>':'')+'</div>'}
+  h+='<div class="chat-system-msg">—— 以上为聊天记录截屏 ——</div>';
+  h+='</div>';
+  document.getElementById('friend-modal-title').textContent='张氏铁铺·有缘人功德群';
+  document.getElementById('friend-modal-body').innerHTML=h;
+  openModal('modal-friend');saveGameState();renderFriendsList();renderMainContent();
+}
+
 // ==================== SEARCH ENGINE ====================
 function openSearch(){document.getElementById('search-input').value='';document.getElementById('search-results').innerHTML='<div style="text-align:center;color:#808080;padding:30px;">输入关键词开始搜索线索…</div>';renderSearchHints();openModal('modal-search')}
 function quickSearch(kw){document.getElementById('search-input').value=kw;doSearch()}
@@ -1990,6 +2336,7 @@ function doSearch(){
   var q=document.getElementById('search-input').value.trim();if(!q)return;
   if(gameState.searchHistory.indexOf(q)===-1)gameState.searchHistory.push(q);
   var day=gameState.day,html='',anyClue=false;
+  var isFirstSearch=gameState.searchedKeywords.indexOf(q)===-1;
   if(GAME_DATA.search[q]&&GAME_DATA.search[q].dayAvailable<=day){
     html+=processSearch(q,GAME_DATA.search[q]);anyClue=true;
   }else{
@@ -1998,13 +2345,18 @@ function doSearch(){
   }
   if(!html)html='<div style="text-align:center;color:#808080;padding:30px;">没有找到与"'+q+'"相关的结果。<br><span style="font-size:11px;">试试换个关键词搜索吧。</span></div>';
   document.getElementById('search-results').innerHTML=html;
-  if(anyClue){showToast('[ + ] 搜索发现了新线索！');renderMainContent();renderFriendsList()}
+  if(anyClue){
+    if(isFirstSearch){gameState.searchedKeywords.push(q);showToast('[ + ] 搜索发现了新线索！')}
+    renderMainContent();renderFriendsList();
+  }
   saveGameState();renderSearchHints();
 }
 function processSearch(kw,data){
   addSearchUnlocked(kw);if(data.unlocks)for(var i=0;i<data.unlocks.length;i++)addSearchUnlocked(data.unlocks[i]);
   if(data.clueId&&!hasClue(data.clueId))addClue(data.clueId);
   if(data.onSearch==='zhangcuimeiRequest'&&gameState.friendRequestsApproved.indexOf('zhangcuimei')===-1)setTimeout(function(){openFriendRequest('zhangcuimei')},500);
+  if(data.onSearch==='groupChatEntry'&&!gameState.groupChatUnlocked){setTimeout(function(){closeModal('modal-search');showGroupChatApplyDialog('yinqiao')},500)}
+  if(data.onSearch==='gongdeGroupChat'){setTimeout(function(){closeModal('modal-search');showGroupChatApplyDialog('gongde')},500)}
   return '<div class="search-result-item"><div class="result-title">'+data.title+'</div><div class="result-url">'+data.url+'</div><div class="result-snippet">'+data.snippet+'</div></div>';
 }
 function fuzzySearch(q,day){
@@ -2036,19 +2388,23 @@ function submitAnswer(slot){
     saveGameState();renderAll();
   }else{fb.className='puzzle-feedback error';fb.textContent=gameState.puzzleAttempts[puzzleIdx]>=2?'不太对。试试换个角度思考？看看提示吧。':'不太对，再想想看。';saveGameState();if(gameState.puzzleAttempts[puzzleIdx]>=2)renderAll()}
 }
-function nextDay(){if(gameState.day<4&&gameState.puzzleSolved[gameState.day-1]){gameState.day++;saveGameState();renderAll();window.scrollTo({top:0,behavior:'smooth'});showToast('>> 进入第 '+gameState.day+' 天')}}
+function nextDay(){if(gameState.day<4&&gameState.puzzleSolved[gameState.day-1]){gameState.day++;gameState.day1SubDiary=0;saveGameState();renderAll();window.scrollTo({top:0,behavior:'smooth'});showToast('>> 进入第 '+gameState.day+' 天')}}
 
 // ==================== DIARY REVIEW ====================
 function openDiaryReview(){
   var body=document.getElementById('diary-review-body');if(!body)return;
   var h='<ul class="diary-review-list">';
+  var anyUnlocked=false;
   for(var d=gameState.day;d>=1;d--){var dd=GAME_DATA.days[d];if(!dd)continue;
-    var locked=d>1&&!gameState.puzzleSolved[d-2];
+    var locked=d>=gameState.day;
     var title=dd.diary?dd.diary.title:(dd.diaries?dd.diaries[0].title+' 等'+dd.diaries.length+'篇':'');
+    if(!locked)anyUnlocked=true;
     h+='<li class="diary-review-item" '+(locked?'style="opacity:0.4;cursor:not-allowed;"':'onclick="viewDiaryEntry('+d+')"')+'>';
-    h+='<div style="font-weight:bold;">'+(locked?'[ ? ? ? ]':title)+'</div><div class="review-date">'+dd.date+(locked?' — 需先解开前一天谜题':' — 点击回顾')+'</div></li>';
+    h+='<div style="font-weight:bold;">'+(locked?'[ ? ? ? ]':title)+'</div><div class="review-date">'+dd.date+(locked?' — 进入下一天后可回顾':' — 点击回顾')+'</div></li>';
   }
-  h+='</ul><div id="diary-full-view" style="margin-top:12px;"></div>';
+  h+='</ul>';
+  if(!anyUnlocked)h+='<p style="text-align:center;color:#808080;padding:20px;">暂无回顾内容。解开今日谜题、进入下一天后，可在此查看过往日志。</p>';
+  h+='<div id="diary-full-view" style="margin-top:12px;"></div>';
   body.innerHTML=h;openModal('modal-diary-review');
 }
 function viewDiaryEntry(dayNum){
@@ -2089,6 +2445,16 @@ function reviewRenderParagraph(p){
   return '<p>'+p.text+'</p>';
 }
 
+// ==================== NOTEBOOK ====================
+function openNotebook(){
+  document.getElementById('notebook-textarea').value=gameState.notebook||'';
+  openModal('modal-notebook');
+}
+function saveNotebook(){
+  gameState.notebook=document.getElementById('notebook-textarea').value;
+  saveGameState();showToast('[ OK ] 笔记已保存');
+}
+
 // ==================== TRUTH PAGE ====================
 function triggerTruth(){
   if(gameState.day!==4||!gameState.day4puzzle1Solved||!gameState.day4puzzle2Solved)return;
@@ -2107,6 +2473,7 @@ function boot(){
   // Event listeners
   var btnSearch=document.getElementById('btn-open-search');if(btnSearch)btnSearch.addEventListener('click',openSearch);
   var btnDiary=document.getElementById('btn-diary-review');if(btnDiary)btnDiary.addEventListener('click',openDiaryReview);
+  var btnNotebook=document.getElementById('btn-notebook');if(btnNotebook)btnNotebook.addEventListener('click',openNotebook);
   var btnR1=document.getElementById('btn-reset-game');if(btnR1)btnR1.addEventListener('click',function(){if(confirm('确定要清除所有存档并重新开始吗？'))resetGameState()});
   var btnR2=document.getElementById('btn-reset-game2');if(btnR2)btnR2.addEventListener('click',function(){if(confirm('确定要清除所有存档并重新开始吗？'))resetGameState()});
   // Return to game button in truth page
